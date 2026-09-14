@@ -1,32 +1,26 @@
-name: Livter Android Test
+name: Livter Android Build
 
 on:
   workflow_dispatch:
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
-      - name: Check Python
-        run: python --version
-
-      - name: Check Java
-        run: java -version
-
-      - name: Install dependencies
+      - name: Install Buildozer
         run: |
           python -m pip install --upgrade pip
-          pip install pygame==2.6.1
+          pip install buildozer cython
 
-      - name: Test imports
+      - name: Build APK
         run: |
-          python -c "import pygame; print('pygame:', pygame.version.ver)"
+          buildozer android debug
