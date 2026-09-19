@@ -9,7 +9,7 @@ source.include_exts = py,png,jpg,jpeg,wav,ogg,ttf,json,txt
 
 version = 0.1
 
-requirements = python3==3.11.9,hostpython3==3.11.9,pygame-ce,opensimplex
+requirements = python3==3.11,hostpython3==3.11,pygame,opensimplex
 
 orientation = landscape
 
