@@ -1,4 +1,3 @@
-
 [app]
 
 title = Livter
@@ -10,7 +9,7 @@ source.include_exts = py,png,jpg,jpeg,wav,ogg,ttf,json,txt
 
 version = 0.1
 
-requirements = python3,pygame,opensimplex
+requirements = python3==3.11.9,hostpython3==3.11.9,pygame,opensimplex
 
 orientation = landscape
 
@@ -22,8 +21,4 @@ android.accept_sdk_license = True
 [buildozer]
 
 log_level = 2
-
 warn_on_root = 1
-
-
-
