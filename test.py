@@ -1,4 +1,5 @@
-x = 10
-b = 16
-r = x*b
-c = 18
+import math
+
+while True:
+    result = math.degrees(math.atan2(int(input("x: ")),-int(input("y: "))))
+    print(result)

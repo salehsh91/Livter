@@ -2,6 +2,7 @@ import pygame as pyg
 from conster import *
 from BlockManager import *
 from npc import *
+from contoroler import *
 from object import *
 
 
@@ -13,8 +14,12 @@ class World:
         self.player = None
         self.seed = seed
         self.display = display
+        self.playerContoroler = None
         self.blockManager = BlocksWorld(seed)
         self.blockManager.create(self.display)
+
+    def ev(self,ev):
+        self.playerContoroler.update(ev)
 
     def update(self):
         self.blockManager.update_background_loading(self.display)
@@ -32,10 +37,13 @@ class World:
         self.blockManager.drawBlocks(self.display)
         obj.drawObjects(self.display,self.blockManager.bx,self.blockManager.by)
         NPC.drawNPC()
+        self.playerContoroler.draw()
+        
+                    
 
     def newNPC(self, w, h, x, y, color, contoroler=None, player=False):
         if contoroler is None:
-            contoroler = NPC_Contoroler()
+            contoroler = Contoroler_Key()
         
         id = len(self.npcs)+1
         npc = NPC(w,h,x,y,self.display,self.blockManager,color,True,player)
@@ -47,4 +55,5 @@ class World:
         return npc
 
     def newPlayer(self, w, h, x, y, color, contoroler=None):
+        self.playerContoroler = contoroler
         return self.newNPC(w,h,x,y,color,contoroler,True)

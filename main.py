@@ -3,6 +3,7 @@ import random
 from init import *
 from world import *
 from npc import *
+from contoroler import *
 from hud import *
 
 
@@ -23,7 +24,8 @@ player = world.newPlayer(
     50,
     WIDTH / 2,
     HEIGHT / 2,
-    COLORS["RED"]
+    COLORS["RED"],
+    Contoroler_JoyStick( screen,200,HEIGHT-200)
 )
 
 npc = world.newNPC(
@@ -32,7 +34,7 @@ npc = world.newNPC(
     WIDTH / 2 + 200,
     HEIGHT / 2,
     COLORS["BLUE"],
-    NPC_Contoroler(pyg.K_i,pyg.K_k,pyg.K_j,pyg.K_l,pyg.K_u)
+    Contoroler_Key(pyg.K_i,pyg.K_k,pyg.K_j,pyg.K_l,pyg.K_u)
 )
 
 healthbar = HealthBar(screen,player.getStatus())
@@ -46,7 +48,8 @@ while running:
         if ev.type == pyg.KEYDOWN:
             if ev.key == pyg.K_ESCAPE:
                 running = False
-    
+
+        world.ev(ev)
     
 
     
