@@ -7,73 +7,90 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-android:
+  build:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+    - name: Checkout
+      uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
 
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: "17"
+    - name: Setup Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version: "17"
 
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            build-essential \
-            git \
-            zip \
-            unzip \
-            autoconf \
-            automake \
-            libtool \
-            pkg-config \
-            zlib1g-dev \
-            libncurses5-dev \
-            libncursesw5-dev \
-            cmake
+    - name: Install system dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y \
+          git \
+          zip \
+          unzip \
+          openjdk-17-jdk \
+          autoconf \
+          libtool \
+          pkg-config \
+          zlib1g-dev \
+          libncurses5-dev \
+          libncursesw5-dev \
+          cmake \
+          libffi-dev \
+          libssl-dev
 
-      - name: Install Buildozer
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install buildozer==1.6.0 cython==0.29.37
+    - name: Install Buildozer
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install \
+          buildozer==1.6.0 \
+          cython==0.29.37
 
-      - name: Clean previous build
-        run: |
-          rm -rf .buildozer
-          rm -rf bin
+    - name: Clean old Buildozer files
+      run: |
+        rm -rf .buildozer
+        rm -rf bin
 
-      - name: Prepare Buildozer
-        run: |
-          buildozer android debug --help
+    - name: Patch python-for-android venv creation
+      run: |
+        P4A_BUILD="$HOME/.buildozer/android/platform/python-for-android/pythonforandroid/build.py"
 
-      - name: Patch python-for-android venv creation
-        run: |
-          P4A_DIR=".buildozer/android/platform/python-for-android"
-          if [ -f "$P4A_DIR/pythonforandroid/build.py" ]; then
-            sed -i \
-              "s/host_python, '-m', 'venv', 'venv'/host_python, '-m', 'venv', '--clear', 'venv'/" \
-              "$P4A_DIR/pythonforandroid/build.py"
-          fi
+        if [ ! -f "$P4A_BUILD" ]; then
+          echo "python-for-android build.py not found"
+          exit 1
+        fi
 
-          grep -n "venv" "$P4A_DIR/pythonforandroid/build.py" | tail -10
+        python - <<'PY'
+        from pathlib import Path
+        import os
 
-      - name: Build APK
-        run: |
-          yes | buildozer -v android debug
+        p = Path.home() / ".buildozer/android/platform/python-for-android/pythonforandroid/build.py"
+        s = p.read_text()
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: Livter-Android
-          path: bin/*.apk
-          if-no-files-found: error
+        old = "shprint(host_python, '-m', 'venv', 'venv')"
+        new = "shprint(host_python, '-m', 'venv', '--clear', 'venv')"
+
+        if old not in s:
+            print("Target line not found.")
+            raise SystemExit(1)
+
+        s = s.replace(old, new, 1)
+        p.write_text(s)
+
+        print("Patched:", p)
+        print("venv creation now uses --clear")
+        PY
+
+    - name: Build APK
+      run: |
+        yes | buildozer android debug
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: Livter-APK
+        path: bin/*.apk
