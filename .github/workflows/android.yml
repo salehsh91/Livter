@@ -54,15 +54,18 @@ jobs:
 
       - name: Show error summary
         if: failure()
+        shell: bash
         run: |
+          # strip color codes and cut very long compiler lines so the summary stays readable
+          sed 's/\x1b\[[0-9;]*m//g' build.log | cut -c1-300 > clean.log
           {
-            echo "## Build failed - errors found in log"
+            echo "## Last 80 lines of the build log"
             echo '```'
-            grep -n -i -E "error|failed|not found|No matching" build.log | tail -n 40 || true
+            tail -n 80 clean.log
             echo '```'
-            echo "## Last 100 lines"
+            echo "## Real error markers (last 30)"
             echo '```'
-            tail -n 100 build.log
+            grep -n -E "Traceback|Command failed|BUILD FAILED|FAILURE:|fatal error|error:|CalledProcessError|Exception|No matching|undefined reference|No space left" clean.log | tail -n 30 || true
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
