@@ -40,10 +40,18 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install buildozer==1.6.0 "cython==0.29.37" setuptools
 
-      - name: Clean old Buildozer files
-        run: |
-          rm -rf .buildozer
-          rm -rf bin
+      - name: Restore Buildozer cache (SDK, NDK, compiled recipes)
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            .buildozer
+            ~/.buildozer
+          key: buildozer-v2-${{ runner.os }}-${{ hashFiles('buildozer.spec') }}-${{ github.run_id }}
+          restore-keys: |
+            buildozer-v2-${{ runner.os }}-${{ hashFiles('buildozer.spec') }}-
+
+      - name: Remove old APK output
+        run: rm -rf bin
 
       - name: Build APK
         shell: bash
@@ -51,6 +59,15 @@ jobs:
           set -o pipefail
           # `< <(yes)` answers any prompt with "y" without breaking pipefail
           buildozer android debug < <(yes) 2>&1 | tee build.log
+
+      - name: Save Buildozer cache (also when the build fails)
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            .buildozer
+            ~/.buildozer
+          key: buildozer-v2-${{ runner.os }}-${{ hashFiles('buildozer.spec') }}-${{ github.run_id }}
 
       - name: Show error summary
         if: failure()
