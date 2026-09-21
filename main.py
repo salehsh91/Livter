@@ -1,5 +1,6 @@
 import pygame as pyg
 import random
+
 from init import *
 from world import *
 from npc import *
@@ -7,17 +8,14 @@ from contoroler import *
 from hud import *
 
 
-
-
 running = True
 
 seed = random.randint(0, 999999999)
 print("seed:", seed)
 
-world = World(seed,screen)
+world = World(seed, screen)
 
-
-
+font = pyg.font.Font(None, 30)
 
 player = world.newPlayer(
     50,
@@ -25,7 +23,7 @@ player = world.newPlayer(
     WIDTH / 2,
     HEIGHT / 2,
     COLORS["RED"],
-    Contoroler_JoyStick( screen,200,HEIGHT-200)
+    Contoroler_JoyStick(screen, 200, HEIGHT - 200)
 )
 
 npc = world.newNPC(
@@ -34,35 +32,50 @@ npc = world.newNPC(
     WIDTH / 2 + 200,
     HEIGHT / 2,
     COLORS["BLUE"],
-    Contoroler_Key(pyg.K_i,pyg.K_k,pyg.K_j,pyg.K_l,pyg.K_u)
+    Contoroler_Key(
+        pyg.K_i,
+        pyg.K_k,
+        pyg.K_j,
+        pyg.K_l,
+        pyg.K_u
+    )
 )
 
-healthbar = HealthBar(screen,player.getStatus())
+world.getHUD(HUD(screen, player.getStatus(world.blockManager)))
+
 print("game started")
+
 clock = pyg.time.Clock()
 
 while running:
+
     for ev in pyg.event.get():
+
         if ev.type == pyg.QUIT:
             running = False
+
         if ev.type == pyg.KEYDOWN:
             if ev.key == pyg.K_ESCAPE:
                 running = False
 
         world.ev(ev)
-    
 
-    
     world.update()
-    healthbar.update(player.getStatus())
-    
-    screen.fill((0, 0, 0)) # پس زمینه مشکی تا پرش‌ها دیده نشوند
-    
+
+    screen.fill((0, 0, 0))
+
     world.draw()
-    healthbar.draw()
-    
-    
+
+    fps_text = font.render(
+        str(int(clock.get_fps())),
+        True,
+        (255, 255, 255)
+    )
+
+    screen.blit(fps_text, (10, 10))
+
     pyg.display.update()
+
     clock.tick(60)
 
 pyg.quit()

@@ -890,20 +890,59 @@ class BlocksWorld:
         
 
     def getblock(self, world_x, world_y, w, h):
-        startx = world_x + self.bx
-        starty = world_y + self.by
-        lastx = startx + w
-        lasty = starty + h
-        blocks = {}
-        for keyc, chunk in self.Chunks.items():
-            for keyb, block in chunk.blocks.items():
-                x = chunk.world_x + keyb[0] * self.bw + self.bx
-                y = chunk.world_y + keyb[1] * self.bh + self.by
+        startx = world_x
+        starty = world_y
+        lastx = world_x + w
+        lasty = world_y + h
 
-                if startx < x < lastx and starty < y < lasty:
-                    blocks[keyc, keyb] = block["type"]
+        blocks = {}
+
+        chunk_w = self.CHUNK_SIZE * self.bw
+        chunk_h = self.CHUNK_SIZE * self.bh
+
+        start_cx = int((startx - self.base_x) // chunk_w)
+        end_cx = int((lastx - self.base_x) // chunk_w)
+
+        start_cy = int((starty - self.base_y) // chunk_h)
+        end_cy = int((lasty - self.base_y) // chunk_h)
+
+        for cx in range(start_cx, end_cx + 1):
+            for cy in range(start_cy, end_cy + 1):
+
+                chunk = self.Chunks.get((cx, cy))
+                if chunk is None:
+                    continue
+
+                chunk_x = self.base_x + cx * chunk_w
+                chunk_y = self.base_y + cy * chunk_h
+
+                local_start_x = max(
+                    0,
+                    int((startx - chunk_x) // self.bw)
+                )
+                local_end_x = min(
+                    self.CHUNK_SIZE - 1,
+                    int((lastx - chunk_x) // self.bw)
+                )
+
+                local_start_y = max(
+                    0,
+                    int((starty - chunk_y) // self.bh)
+                )
+                local_end_y = min(
+                    self.CHUNK_SIZE - 1,
+                    int((lasty - chunk_y) // self.bh)
+                )
+
+                for lx in range(local_start_x, local_end_x + 1):
+                    for ly in range(local_start_y, local_end_y + 1):
+
+                        keyb = (lx, ly)
+
+                        if keyb in chunk.blocks:
+                            blocks[(cx, cy), keyb] = chunk.blocks[keyb]["type"]
+
         return blocks
-                    
 
         
 
