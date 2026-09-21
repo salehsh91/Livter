@@ -14,7 +14,7 @@ version = 0.1
 requirements = python3==3.10.12,hostpython3==3.10.12,pygame
 
 orientation = landscape
-fullscreen = 0
+fullscreen = 1
 
 android.accept_sdk_license = True
 

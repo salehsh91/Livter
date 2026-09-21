@@ -899,8 +899,8 @@ class BlocksWorld:
         blocks = {}
         for keyc ,chunk in self.Chunks.items():
             for keyb , block in chunk.blocks.items():
-                x=keyb[0]+self.bx
-                y=keyb[1]+self.by
+                x=chunk.x+keyb[0]+self.bx
+                y=chunk.y+keyb[1]+self.by
                 
                 if startx<x and x<lastx and starty<y and y<lasty:
                     blocks[keyb] = block
