@@ -1,90 +1,55 @@
+import os
 import pygame as pyg
 from conster import *
 
-class Texture:
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ASSETS_DIR = os.path.join(BASE_DIR, "assets")
+
+
+
+def load_texture(name, fallback, alpha=False):
     try:
-            
-        grass = pyg.transform.scale(
-            pyg.image.load(
-                "assets/grass2.png"
-            ).convert(),
-            (BLOCK_SIZE ,BLOCK_SIZE)
+        image = pyg.image.load(
+            os.path.join(ASSETS_DIR, name)
         )
-
-        stone = pyg.transform.scale(
-            pyg.image.load(
-                "assets/stone.png"
-            ).convert(),
-            (BLOCK_SIZE ,BLOCK_SIZE)
-        )
-
-        water = pyg.transform.scale(
-            pyg.image.load(
-                "assets/water2.png"
-            ).convert(),
-            (BLOCK_SIZE ,BLOCK_SIZE)
-        )
-
-        sand = pyg.transform.scale(
-            pyg.image.load(
-                "assets/sand2.png"
-            ).convert(),
-            (BLOCK_SIZE ,BLOCK_SIZE)
-        )
-
-
-        plank = pyg.transform.scale(
-                    pyg.image.load(
-                        "assets/plank.png"
-                    ).convert(),
-                    (BLOCK_SIZE ,BLOCK_SIZE)
-                )
-
-        Healthtexture = pyg.transform.scale(
-                    pyg.image.load(
-                        "assets/health.png"
-                    ).convert_alpha(),
-                    (10,10)
-                )
-
+        return image.convert_alpha() if alpha else image.convert()
     except:
+        surface = pyg.Surface(
+            (BLOCK_SIZE, BLOCK_SIZE),
+            pyg.SRCALPHA if alpha else 0
+        )
+        surface.fill(fallback)
+        return surface
 
-        grass = pyg.Surface(
-            (BLOCK_SIZE ,BLOCK_SIZE)
-        )
-        grass.fill(
-            (34, 139, 34)
-        )
 
-        stone = pyg.Surface(
-            (BLOCK_SIZE ,BLOCK_SIZE)
-        )
-        stone.fill(
-            (128, 128, 128)
-        )
 
-        water = pyg.Surface(
-            (BLOCK_SIZE ,BLOCK_SIZE)
-        )
-        water.fill(
-            (30, 144, 255)
-        )
+class Texture:
+    grass = pyg.transform.scale(
+        load_texture("grass2.png", (34, 139, 34)),
+        (BLOCK_SIZE, BLOCK_SIZE)
+    )
 
-        sand = pyg.Surface(
-            (BLOCK_SIZE ,BLOCK_SIZE)
-        )
-        sand.fill(
-            (244, 164, 96)
-        )
-        plank = pyg.Surface(
-            (BLOCK_SIZE ,BLOCK_SIZE)
-        )
-        plank.fill(
-            (244, 164, 96)
-        )
-        Healthtexture = pyg.Surface(
+    stone = pyg.transform.scale(
+        load_texture("stone.png", (128, 128, 128)),
+        (BLOCK_SIZE, BLOCK_SIZE)
+    )
+
+    water = pyg.transform.scale(
+        load_texture("water2.png", (30, 144, 255)),
+        (BLOCK_SIZE, BLOCK_SIZE)
+    )
+
+    sand = pyg.transform.scale(
+        load_texture("sand2.png", (244, 164, 96)),
+        (BLOCK_SIZE, BLOCK_SIZE)
+    )
+
+    plank = pyg.transform.scale(
+        load_texture("plank.png", (244, 164, 96)),
+        (BLOCK_SIZE, BLOCK_SIZE)
+    )
+
+    health = pyg.transform.scale(
+            load_texture("health.png", (244, 0, 0),True),
             (10,10)
-        )
-        Healthtexture.fill(
-            (244, 0, 0)
         )

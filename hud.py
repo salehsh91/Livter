@@ -5,7 +5,7 @@ class HealthBar:
         self.health = API["health"] // 10
         self.objsize = 10
         self.display = display
-        self.Healthtexture = Texture.Healthtexture
+        self.Healthtexture = Texture.health
 
     def update(self,API):
         self.health = API["health"] // 10
