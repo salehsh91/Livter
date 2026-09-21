@@ -1,7 +1,7 @@
 import pygame as pyg
-from opensimplex import OpenSimplex
+from mynoise import OpenSimplex
 
-from chunk import Chunk
+from worldchunk import Chunk
 from conster import *
 from texture import *
 
