@@ -15,6 +15,7 @@ requirements = python3==3.10.12,hostpython3==3.10.12,pygame
 
 orientation = landscape
 fullscreen = 1
+android.display_cutout = shortEdges
 
 android.accept_sdk_license = True
 
