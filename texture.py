@@ -40,6 +40,13 @@ class Texture:
                     (BLOCK_SIZE ,BLOCK_SIZE)
                 )
 
+        Healthtexture = pyg.transform.scale(
+                    pyg.image.load(
+                        "assets/health.png"
+                    ).convert_alpha(),
+                    (10,10)
+                )
+
     except:
 
         grass = pyg.Surface(
@@ -74,4 +81,10 @@ class Texture:
         )
         plank.fill(
             (244, 164, 96)
+        )
+        Healthtexture = pyg.Surface(
+            (10,10)
+        )
+        Healthtexture.fill(
+            (244, 0, 0)
         )
