@@ -31,7 +31,7 @@ class World:
 
         if self.player:
             self.blockManager.move(-self.player.last_dx, self.player.last_dy)
-            self.player.update()
+            self.player.update(self.blockManager)
 
     def draw(self):
         self.blockManager.drawBlocks(self.display)

@@ -1,6 +1,5 @@
 import pygame as pyg
 from mynoise import OpenSimplex
-
 from worldchunk import Chunk
 from conster import *
 from texture import *
@@ -890,25 +889,19 @@ class BlocksWorld:
 
         
 
-    def getblock(self,world_x,world_y,w,h):
-        # print("1")
-        startx = (world_x + self.bx)
-        starty = (world_y + self.by)
-        lastx = startx+w
-        lasty = starty+h
+    def getblock(self, world_x, world_y, w, h):
+        startx = world_x + self.bx
+        starty = world_y + self.by
+        lastx = startx + w
+        lasty = starty + h
         blocks = {}
-        for keyc ,chunk in self.Chunks.items():
-            for keyb , block in chunk.blocks.items():
-                x=chunk.x+keyb[0]+self.bx
-                y=chunk.y+keyb[1]+self.by
-                
-                if startx<x and x<lastx and starty<y and y<lasty:
-                    blocks[keyb] = block
-                    
-                    
-                    
+        for keyc, chunk in self.Chunks.items():
+            for keyb, block in chunk.blocks.items():
+                x = chunk.world_x + keyb[0] * self.bw + self.bx
+                y = chunk.world_y + keyb[1] * self.bh + self.by
 
-
+                if startx < x < lastx and starty < y < lasty:
+                    blocks[keyc, keyb] = block["type"]
         return blocks
                     
 

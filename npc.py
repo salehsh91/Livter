@@ -32,6 +32,14 @@ class NPC:
 
         self.npcs.append(self)
 
+
+    def update(self,bManager):
+        blocks = bManager.getblock(self.world_x,self.world_y,self.width,self.height)
+        for key, type in blocks.items():
+            if type == "water":
+                self.health -= 1
+            
+
     def getAPI(self, API):
         if API["move"]:
             rad = math.radians(API["dir"])
@@ -77,8 +85,7 @@ class NPC:
         x, y = self.directionManager()
         obj1 = obj(x, y, name="plank")
 
-    def update(self):
-        pass
+    
 
     def directionManager(self):
         # ⚠️ یادآوری: این تابع هنوز همون دو باگ قبلی رو داره که جدا
