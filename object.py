@@ -1,6 +1,6 @@
 import pygame as pyg
 from conster import *
-from block import Block
+from blockitem import Block
 
 class obj:
     objs = {}
@@ -13,9 +13,9 @@ class obj:
         self.height = height
 
         block = Block.getblock_status(name = name)
-        self.texture = block["texture"]
-        self.type = block["type"]
-        self.name = block["name"]
+        self.texture = block.texture
+        self.type = block.type
+        self.name = block.name
 
         self.id = len(self.objs)+1
         self.objs[self.id] = self

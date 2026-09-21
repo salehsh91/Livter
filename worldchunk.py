@@ -1,7 +1,7 @@
 import pygame as pyg
 
 from conster import *
-from block import *
+from blockitem import *
 
 class Chunk:
     def __init__(self, chunk_x, chunk_y, chunk_size, block_size, world_offset_x, world_offset_y):
@@ -41,7 +41,7 @@ class Chunk:
         self.surface = pyg.Surface((size, size)).convert()
 
         for (lx, ly), block in self.blocks.items():
-            texture = block["texture"]
+            texture = block.texture
             self.surface.blit(
                 texture,
                 (lx * self.block_size, ly * self.block_size)

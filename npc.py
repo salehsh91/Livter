@@ -1,6 +1,7 @@
 import pygame as pyg
 import math
 from conster import *
+from blockitem import *
 from object import obj
 
 
@@ -21,7 +22,7 @@ class NPC:
 
         self.world = world
         self.health = 100
-        self.hungry = 0
+        self.hungry = 100
 
         self.world_x = x
         self.world_y = y
@@ -34,7 +35,17 @@ class NPC:
         self.direction = (0, 1)
         self.dir_angle = 0
 
+        self.invertory = None
+
         self.npcs.append(self)
+
+    def addinvertory(self, invertory):
+        self.invertory = invertory
+
+        self.invertory.add(
+            Item.getitem_status(name="plank"),
+            999
+        )
 
     def update(self, bManager):
         blocks = bManager.getblock(
@@ -46,7 +57,9 @@ class NPC:
 
         for key, block_type in blocks.items():
             if block_type == "water":
-                self.health -= 1
+                self.health -= Block.getblock_status(
+                    type=block_type
+                ).damage
                 break
 
     def getAPI(self, API):
@@ -87,8 +100,35 @@ class NPC:
             return (-1, 0)
 
     def drap(self):
+        if self.invertory is None:
+            return
+
+        slot = self.invertory.slots.get(1)
+
+        if slot is None:
+            return
+
+        item = slot[0]
+        count = slot[1]
+
+        if count <= 0:
+            return
+
         x, y = self.directionManager()
-        obj1 = obj(x, y, name="plank")
+
+        obj(
+            x,
+            y,
+            name=item.name
+        )
+
+        self.invertory.slots[1] = (
+            item,
+            count - 1
+        )
+
+        if self.invertory.slots[1][1] <= 0:
+            del self.invertory.slots[1]
 
     def directionManager(self):
         x = int(
@@ -110,7 +150,7 @@ class NPC:
 
         return x, y
 
-    def getStatus(self,bManager):
+    def getStatus(self, bManager):
         blocks = {}
         id = 0
 
@@ -121,7 +161,7 @@ class NPC:
                 y = ny * BLOCK_SIZE + self.world_y
 
                 id += 1
-                
+
                 blocks[id] = bManager.getblock(
                     x,
                     y,
@@ -131,6 +171,8 @@ class NPC:
 
         return {
             "blocks": blocks,
+            "invertory": self.invertory.slots,
+            "numslots": self.invertory.slotnum,
             "health": self.health,
             "hungry": self.hungry,
             "x": self.world_x,

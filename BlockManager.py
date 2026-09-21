@@ -652,7 +652,7 @@ class BlocksWorld:
 
             for keyb, block in chunk.blocks.items():
 
-                texture = block["texture"]
+                texture = block.texture
                 bx, by = keyb
 
                 new_keyb = self.getAlgoritm(
@@ -940,7 +940,7 @@ class BlocksWorld:
                         keyb = (lx, ly)
 
                         if keyb in chunk.blocks:
-                            blocks[(cx, cy), keyb] = chunk.blocks[keyb]["type"]
+                            blocks[(cx, cy), keyb] = chunk.blocks[keyb].type
 
         return blocks
 

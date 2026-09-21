@@ -4,6 +4,7 @@ from BlockManager import *
 from npc import *
 from contoroler import *
 from object import *
+from inventory import *
 
 
 class World:
@@ -17,7 +18,7 @@ class World:
         self.blockManager.create(self.display)
 
         self.npc_update_counter = 0
-        self.npc_update_every = 6
+        self.npc_update_every = 15
 
         self.HUD = None
 
@@ -63,7 +64,7 @@ class World:
         self.HUD.draw()
         self.playerContoroler.draw()
 
-    def newNPC(self, w, h, x, y, color, contoroler=None,HUD=None, player=False):
+    def newNPC(self, w, h, x, y, color, contoroler=None,HUD=None,inventory = Invertory(), player=False):
         if contoroler is None:
             contoroler = Contoroler_Key()
 
@@ -80,7 +81,9 @@ class World:
             player
         )
 
-        self.npcs[id] = (npc, contoroler,HUD)
+        npc.addinvertory(inventory)
+
+        self.npcs[id] = (npc, contoroler,HUD,inventory)
 
         if player:
             self.player = npc
@@ -97,6 +100,7 @@ class World:
             color,
             contoroler,
             self.HUD,
+            Invertory(),
             True
         )
 

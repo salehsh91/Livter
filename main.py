@@ -26,20 +26,22 @@ player = world.newPlayer(
     Contoroler_JoyStick(screen, 200, HEIGHT - 200)
 )
 
-npc = world.newNPC(
-    50,
-    50,
-    WIDTH / 2 + 200,
-    HEIGHT / 2,
-    COLORS["BLUE"],
-    Contoroler_Key(
-        pyg.K_i,
-        pyg.K_k,
-        pyg.K_j,
-        pyg.K_l,
-        pyg.K_u
+for _ in range( 100):
+
+    world.newNPC(
+        50,
+        50,
+        WIDTH / 2 + 200,
+        HEIGHT / 2,
+        COLORS["BLUE"],
+        Contoroler_Key(
+            pyg.K_i,
+            pyg.K_k,
+            pyg.K_j,
+            pyg.K_l,
+            pyg.K_u
+        )
     )
-)
 
 world.getHUD(HUD(screen, player.getStatus(world.blockManager)))
 
