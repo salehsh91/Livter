@@ -2,7 +2,9 @@
 
 Livter is a 2D sandbox game focused on a procedural world and dynamic NPC-driven gameplay.
 
-## Features
+The world is generated from a seed, while objects, items, NPCs, and other systems interact with each other to create a living game world.
+
+# Features
 
 - Procedurally generated worlds
 - Chunk-based world system
@@ -11,13 +13,8 @@ Livter is a 2D sandbox game focused on a procedural world and dynamic NPC-driven
 - Inventory system
 - Touch and keyboard controls
 - Pygame-based rendering
-- Android support through Buildozer
 
-## Status
-
-Livter is currently under active development.
-
-## Tech Stack
+# Technology
 
 - Python
 - Pygame
@@ -25,11 +22,11 @@ Livter is currently under active development.
 - Buildozer
 - GitHub Actions
 
-## Platforms
+# Platforms
 
 - Android
 - Windows
 
-## Repository
+# Status
 
-https://github.com/salehsh91/Livter
+Currently under active development.
