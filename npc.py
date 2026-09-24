@@ -16,6 +16,7 @@ class NPC:
         self.color = color
         self.width = w
         self.height = h
+        self.length = 2
         self.display = display
 
         self.realx = x
@@ -27,6 +28,7 @@ class NPC:
 
         self.world_x = x
         self.world_y = y
+        self.world_z = 1
 
         self.last_dx = 0
         self.last_dy = 0
@@ -39,6 +41,7 @@ class NPC:
         self.invertory = None
 
         self.rightHand = None
+        self.Auto_Ground = False
 
         self.npcs.append(self)
 
@@ -135,8 +138,7 @@ class NPC:
         end_x = x + math.sin(rad) * camdirline
         end_y = y - math.cos(rad) * camdirline
 
-        world_x = end_x - self.world.bx
-        world_y = end_y - self.world.by
+        
 
         w = item.block.w
         h = item.block.h
@@ -144,12 +146,17 @@ class NPC:
         base_x = self.world.base_x
         base_y = self.world.base_y
 
+        world_x = end_x - self.world.bx
+        world_y = end_y - self.world.by
+        world_z = obj.zblock(world_x,world_y,self.world_z,self.length,base_x,base_y,self.Auto_Ground)
+
         # گذاشتن Object
         if drap >= 1:
 
             new_obj = obj(
                 world_x,
                 world_y,
+                world_z,
                 w,
                 h,
                 name=item.name,
@@ -217,6 +224,20 @@ class NPC:
             "y": self.world_y,
             "cameradir": self.camdir_angle
         }
+
+    def draw(self, display, bx, by):
+        pyg.draw.rect(
+            display,
+            self.color,
+            (
+                self.world_x + bx,
+                self.world_y + by,
+                self.width,
+                self.height
+            )
+        )
+
+    
 
     @classmethod
     def drawNPC(cls):

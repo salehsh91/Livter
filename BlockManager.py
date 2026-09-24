@@ -1,4 +1,5 @@
 import pygame as pyg
+
 from mynoise import OpenSimplex
 from worldchunk import Chunk
 from conster import *
@@ -21,7 +22,6 @@ class BlocksWorld:
         self.w = W_WORLD
         self.h = H_WORLD
 
-        # تعداد Chunkهای Real
         self.num_chunks_x = (
             self.w + self.CHUNK_SIZE - 1
         ) // self.CHUNK_SIZE
@@ -45,7 +45,7 @@ class BlocksWorld:
         self.by = 0
 
         # =====================================
-        # اندازه واقعی World بر اساس Chunk
+        # Real World Size
         # =====================================
 
         self.real_world_width = (
@@ -61,7 +61,7 @@ class BlocksWorld:
         )
 
         # =====================================
-        # مرکز کردن Real World
+        # Center Real World
         # =====================================
 
         self.base_x = (
@@ -80,10 +80,8 @@ class BlocksWorld:
 
         self.margin_chunks = 2
 
-        # تمام Chunkها
         self.Chunks = {}
 
-        # فقط Chunkهای Real
         self.RealChunks = {}
 
         # =====================================
@@ -181,17 +179,16 @@ class BlocksWorld:
         # ==============================================
 
         for key in self.get_real_visible_chunks():
-
             self.load_chunk(key)
 
         # ==============================================
-        # ذخیره Realها
+        # Save Real Chunks
         # ==============================================
 
         self.RealChunks = self.Chunks.copy()
 
         # ==============================================
-        # چهار طرف
+        # Four Directions
         # ==============================================
 
         directions = [
@@ -202,11 +199,10 @@ class BlocksWorld:
         ]
 
         for direction in directions:
-
             self.faketoreal(direction)
 
         # ==============================================
-        # چهار گوشه
+        # Four Corners
         # ==============================================
 
         corners = [
@@ -217,7 +213,6 @@ class BlocksWorld:
         ]
 
         for corner in corners:
-
             self.faketoreal(corner)
 
         print("Initial load done!")
@@ -357,8 +352,7 @@ class BlocksWorld:
                 is_down_fake = (
                     0 <= cx < self.num_chunks_x
                     and
-                    self.num_chunks_y
-                    <= cy
+                    self.num_chunks_y <= cy
                     <
                     self.num_chunks_y * 2
                 )
@@ -368,8 +362,7 @@ class BlocksWorld:
                 # ======================================
 
                 is_left_fake = (
-                    -self.num_chunks_x
-                    <= cx
+                    -self.num_chunks_x <= cx
                     < 0
                     and
                     0 <= cy < self.num_chunks_y
@@ -380,8 +373,7 @@ class BlocksWorld:
                 # ======================================
 
                 is_right_fake = (
-                    self.num_chunks_x
-                    <= cx
+                    self.num_chunks_x <= cx
                     <
                     self.num_chunks_x * 2
                     and
@@ -393,12 +385,10 @@ class BlocksWorld:
                 # ======================================
 
                 is_up_left_fake = (
-                    -self.num_chunks_x
-                    <= cx
+                    -self.num_chunks_x <= cx
                     < 0
                     and
-                    -self.num_chunks_y
-                    <= cy
+                    -self.num_chunks_y <= cy
                     < 0
                 )
 
@@ -407,13 +397,11 @@ class BlocksWorld:
                 # ======================================
 
                 is_up_right_fake = (
-                    self.num_chunks_x
-                    <= cx
+                    self.num_chunks_x <= cx
                     <
                     self.num_chunks_x * 2
                     and
-                    -self.num_chunks_y
-                    <= cy
+                    -self.num_chunks_y <= cy
                     < 0
                 )
 
@@ -422,12 +410,10 @@ class BlocksWorld:
                 # ======================================
 
                 is_down_left_fake = (
-                    -self.num_chunks_x
-                    <= cx
+                    -self.num_chunks_x <= cx
                     < 0
                     and
-                    self.num_chunks_y
-                    <= cy
+                    self.num_chunks_y <= cy
                     <
                     self.num_chunks_y * 2
                 )
@@ -437,13 +423,11 @@ class BlocksWorld:
                 # ======================================
 
                 is_down_right_fake = (
-                    self.num_chunks_x
-                    <= cx
+                    self.num_chunks_x <= cx
                     <
                     self.num_chunks_x * 2
                     and
-                    self.num_chunks_y
-                    <= cy
+                    self.num_chunks_y <= cy
                     <
                     self.num_chunks_y * 2
                 )
@@ -454,14 +438,22 @@ class BlocksWorld:
 
                 if (
                     is_real
-                    or is_up_fake
-                    or is_down_fake
-                    or is_left_fake
-                    or is_right_fake
-                    or is_up_left_fake
-                    or is_up_right_fake
-                    or is_down_left_fake
-                    or is_down_right_fake
+                    or
+                    is_up_fake
+                    or
+                    is_down_fake
+                    or
+                    is_left_fake
+                    or
+                    is_right_fake
+                    or
+                    is_up_left_fake
+                    or
+                    is_up_right_fake
+                    or
+                    is_down_left_fake
+                    or
+                    is_down_right_fake
                 ):
 
                     visible.append(
@@ -482,7 +474,6 @@ class BlocksWorld:
     ):
 
         if blocks1 is None:
-
             blocks1 = {}
 
         if (
@@ -490,7 +481,6 @@ class BlocksWorld:
             and
             self.Chunks[key].is_loaded
         ):
-
             return
 
         cx, cy = key
@@ -587,7 +577,6 @@ class BlocksWorld:
                     self.num_chunks_x * 2
                     - cx
                     - 1,
-
                     -cy - 1
                 )
 
@@ -612,7 +601,6 @@ class BlocksWorld:
                     self.num_chunks_x * 2
                     - cx
                     - 1,
-
                     self.num_chunks_y * 2
                     - cy
                     - 1
@@ -626,56 +614,86 @@ class BlocksWorld:
 
                 new_keyc = (
                     -cx - 1,
-
                     self.num_chunks_y * 2
                     - cy
                     - 1
                 )
 
             else:
-
                 continue
 
             # ==========================================
-            # اگر قبلاً وجود دارد
+            # Already Exists
             # ==========================================
 
             if new_keyc in self.Chunks:
-
                 continue
 
             # ==========================================
-            # Mirror Blocks
+            # Mirror All Z Layers
             # ==========================================
 
-            bl = {}
+            new_layers = {}
 
-            for keyb, block in chunk.blocks.items():
+            for z, layer in chunk.blocks.items():
 
-                texture = block.texture
-                bx, by = keyb
+                new_blocks = {}
 
-                new_keyb = self.getAlgoritm(
-                    type,
-                    bx,
-                    by
+                # --------------------------------------
+                # Mirror Blocks
+                # --------------------------------------
+
+                for keyb, block in layer["blocks"].items():
+
+                    bx, by = keyb
+
+                    new_keyb = self.getAlgoritm(
+                        type,
+                        bx,
+                        by
+                    )
+
+                    new_blocks[new_keyb] = block
+
+                # --------------------------------------
+                # Create Surface
+                # --------------------------------------
+
+                surface = pyg.Surface(
+                    (
+                        self.CHUNK_SIZE * self.bw,
+                        self.CHUNK_SIZE * self.bh
+                    ),
+                    pyg.SRCALPHA
                 )
 
-                bl[new_keyb] = block
+                for (bx, by), block in new_blocks.items():
+
+                    surface.blit(
+                        block.texture,
+                        (
+                            bx * self.bw,
+                            by * self.bh
+                        )
+                    )
+
+                # --------------------------------------
+                # Save Layer
+                # --------------------------------------
+
+                new_layers[z] = {
+                    "blocks": new_blocks,
+                    "surface": surface
+                }
 
             # ==========================================
-            # ساخت Fake
+            # Create Fake Chunk
             # ==========================================
 
             self.load_chunk(
                 new_keyc,
-                bl,
+                new_layers,
                 True
-            )
-
-            print(
-                f"Load Fake {type}: "
-                f"{keyc} -> {new_keyc}"
             )
 
     # ==================================================
@@ -848,17 +866,16 @@ class BlocksWorld:
     def move(self, x, y):
 
         self.bx += (
-            x *
+            x
+            *
             self.speedCamera
         )
 
         self.by -= (
-            y *
+            y
+            *
             self.speedCamera
         )
-
-
-        
 
     # ==================================================
     # Draw
@@ -876,77 +893,161 @@ class BlocksWorld:
                     self.by
                 )
 
+    # ==================================================
+    # Texture
+    # ==================================================
 
     def texture(self):
-        
+
         self.grass = Texture.grass
-
         self.stone = Texture.stone
-
         self.water = Texture.water
-
         self.sand = Texture.sand
 
-        
+    # ==================================================
+    # Get Block
+    # ==================================================
 
-    def getblock(self, world_x, world_y, w, h):
+    def getblock(
+        self,
+        world_x,
+        world_y,
+        w,
+        h
+    ):
+
         startx = world_x
         starty = world_y
+
         lastx = world_x + w
         lasty = world_y + h
 
         blocks = {}
 
-        chunk_w = self.CHUNK_SIZE * self.bw
-        chunk_h = self.CHUNK_SIZE * self.bh
+        chunk_w = (
+            self.CHUNK_SIZE
+            * self.bw
+        )
 
-        start_cx = int((startx - self.base_x) // chunk_w)
-        end_cx = int((lastx - self.base_x) // chunk_w)
+        chunk_h = (
+            self.CHUNK_SIZE
+            * self.bh
+        )
 
-        start_cy = int((starty - self.base_y) // chunk_h)
-        end_cy = int((lasty - self.base_y) // chunk_h)
+        start_cx = int(
+            (startx - self.base_x)
+            // chunk_w
+        )
 
-        for cx in range(start_cx, end_cx + 1):
-            for cy in range(start_cy, end_cy + 1):
+        end_cx = int(
+            (lastx - self.base_x)
+            // chunk_w
+        )
 
-                chunk = self.Chunks.get((cx, cy))
+        start_cy = int(
+            (starty - self.base_y)
+            // chunk_h
+        )
+
+        end_cy = int(
+            (lasty - self.base_y)
+            // chunk_h
+        )
+
+        for cx in range(
+            start_cx,
+            end_cx + 1
+        ):
+
+            for cy in range(
+                start_cy,
+                end_cy + 1
+            ):
+
+                chunk = self.Chunks.get(
+                    (cx, cy)
+                )
+
                 if chunk is None:
                     continue
 
-                chunk_x = self.base_x + cx * chunk_w
-                chunk_y = self.base_y + cy * chunk_h
+                chunk_x = (
+                    self.base_x
+                    + cx * chunk_w
+                )
+
+                chunk_y = (
+                    self.base_y
+                    + cy * chunk_h
+                )
 
                 local_start_x = max(
                     0,
-                    int((startx - chunk_x) // self.bw)
+                    int(
+                        (startx - chunk_x)
+                        // self.bw
+                    )
                 )
+
                 local_end_x = min(
                     self.CHUNK_SIZE - 1,
-                    int((lastx - chunk_x) // self.bw)
+                    int(
+                        (lastx - chunk_x)
+                        // self.bw
+                    )
                 )
 
                 local_start_y = max(
                     0,
-                    int((starty - chunk_y) // self.bh)
+                    int(
+                        (starty - chunk_y)
+                        // self.bh
+                    )
                 )
+
                 local_end_y = min(
                     self.CHUNK_SIZE - 1,
-                    int((lasty - chunk_y) // self.bh)
+                    int(
+                        (lasty - chunk_y)
+                        // self.bh
+                    )
                 )
 
-                for lx in range(local_start_x, local_end_x + 1):
-                    for ly in range(local_start_y, local_end_y + 1):
+                # ======================================
+                # فعلاً فقط Layer 0
+                # ======================================
 
-                        keyb = (lx, ly)
+                if 0 not in chunk.blocks:
+                    continue
 
-                        if keyb in chunk.blocks:
-                            blocks[(cx, cy), keyb] = chunk.blocks[keyb].type
+                layer = chunk.blocks[0]
+
+                layer_blocks = layer["blocks"]
+
+                for lx in range(
+                    local_start_x,
+                    local_end_x + 1
+                ):
+
+                    for ly in range(
+                        local_start_y,
+                        local_end_y + 1
+                    ):
+
+                        keyb = (
+                            lx,
+                            ly
+                        )
+
+                        if keyb in layer_blocks:
+
+                            blocks[
+                                (cx, cy),
+                                keyb
+                            ] = (
+                                layer_blocks[
+                                    keyb
+                                ].type
+                            )
 
         return blocks
-
-        
-
-
-                    
-                
-    

@@ -110,4 +110,36 @@ class World:
 
     def updateHUD(self):
         self.HUD.update(self.player.getStatus(self.blockManager))
-            
+
+
+    def draw(self):
+        # ==========================================
+        # Block / Chunk
+        # ==========================================
+
+        self.blockManager.drawBlocks(
+            self.display
+        )
+
+        # ==========================================
+        # Object
+        # ==========================================
+
+        obj.drawObjects(
+            self.display,
+            self.blockManager.bx,
+            self.blockManager.by
+        )
+
+        # ==========================================
+        # NPC
+        # ==========================================
+
+        NPC.drawNPC()
+
+        # ==========================================
+        # HUD
+        # ==========================================
+
+        self.HUD.draw()
+        self.playerContoroler.draw()

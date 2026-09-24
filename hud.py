@@ -150,7 +150,7 @@ class HUD:
         )
 
         for id, data in list(self.invertory.items()):
-            print("SLOT:", id, data)
+            
             item = data[0]
             count = data[1]
             active = data[2] if len(data) > 2 else False
