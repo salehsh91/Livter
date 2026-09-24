@@ -43,6 +43,9 @@ class NPC:
         self.rightHand = None
         self.Auto_Ground = True
 
+        self.last_drap_time = 0
+        self.drap_delay = 500  # میلی‌ثانیه
+
         self.npcs.append(self)
 
     def addinvertory(self, invertory):
@@ -95,8 +98,12 @@ class NPC:
         self.last_dy = y
 
         self.camdir_angle = API["cameradir"]
+        now = pyg.time.get_ticks()
+
+        if now - self.last_drap_time >= self.drap_delay:
+            self.last_drap_time = now
+            self.drap(API["drap"])
         
-        self.drap(API["drap"])
 
 
 
@@ -190,6 +197,8 @@ class NPC:
                     a = True
 
                 self.invertory.add(i, 1 ,a)
+
+        
 
         
 

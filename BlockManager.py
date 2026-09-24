@@ -1,5 +1,4 @@
 import pygame as pyg
-
 from mynoise import OpenSimplex
 from worldchunk import Chunk
 from conster import *
