@@ -41,7 +41,7 @@ class NPC:
         self.invertory = None
 
         self.rightHand = None
-        self.Auto_Ground = False
+        self.Auto_Ground = True
 
         self.npcs.append(self)
 
