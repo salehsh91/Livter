@@ -3,6 +3,7 @@ import math
 from conster import *
 from blockitem import *
 from object import obj
+from blockitem import Item
 
 
 class NPC:
@@ -32,10 +33,12 @@ class NPC:
 
         self.move = move
 
-        self.direction = (0, 1)
         self.dir_angle = 0
+        self.camdir_angle = 0
 
         self.invertory = None
+
+        self.rightHand = None
 
         self.npcs.append(self)
 
@@ -44,6 +47,10 @@ class NPC:
 
         self.invertory.add(
             Item.getitem_status(name="plank"),
+            999
+        )
+        self.invertory.add(
+            Item.getitem_status(name="stone"),
             999
         )
 
@@ -70,7 +77,7 @@ class NPC:
             dy = -math.cos(rad)
 
             self.dir_angle = API["dir"]
-            self.direction = self._angle_to_discrete(API["dir"])
+            
         else:
             dx = 0
             dy = 0
@@ -84,71 +91,102 @@ class NPC:
         self.last_dx = x
         self.last_dy = y
 
-        if API["drap"]:
-            self.drap()
+        self.camdir_angle = API["cameradir"]
+        
+        self.drap(API["drap"])
 
-    def _angle_to_discrete(self, angle):
-        angle = angle % 360
 
-        if angle >= 315 or angle < 45:
-            return (0, -1)
-        elif angle < 135:
-            return (1, 0)
-        elif angle < 225:
-            return (0, 1)
-        else:
-            return (-1, 0)
 
-    def drap(self):
-        if self.invertory is None:
+    def drap(self, drap):
+        if self.invertory is None or drap == 0:
             return
 
-        slot = self.invertory.slots.get(1)
+        # پیدا کردن Slot فعال
+        key = None
 
-        if slot is None:
+        for k, data in self.invertory.slots.items():
+            if len(data) >= 3 and data[2] == True:
+                key = k
+                break
+
+        if key is None:
+            return
+
+        slot = self.invertory.slots[key]
+
+        self.rightHand = slot
+
+        if len(slot) < 3:
             return
 
         item = slot[0]
         count = slot[1]
+        active = slot[2]
 
-        if count <= 0:
+        if count <= 0 or active == False:
             return
 
-        x, y = self.directionManager()
+        # محاسبه محل قرار گرفتن/برداشتن Object
+        x = WIDTH / 2
+        y = HEIGHT / 2
 
-        obj(
-            x,
-            y,
-            name=item.name
-        )
+        rad = math.radians(self.camdir_angle)
 
-        self.invertory.slots[1] = (
-            item,
-            count - 1
-        )
+        end_x = x + math.sin(rad) * camdirline
+        end_y = y - math.cos(rad) * camdirline
 
-        if self.invertory.slots[1][1] <= 0:
-            del self.invertory.slots[1]
+        world_x = end_x - self.world.bx
+        world_y = end_y - self.world.by
 
-    def directionManager(self):
-        x = int(
-            (self.world_x + self.width / 2) // BLOCK_SIZE
-        ) * BLOCK_SIZE + 11
+        w = item.block.w
+        h = item.block.h
 
-        y = int(
-            (self.world_y + self.height / 2) // BLOCK_SIZE
-        ) * BLOCK_SIZE
+        base_x = self.world.base_x
+        base_y = self.world.base_y
 
-        if self.direction == (1, 0):
-            x += BLOCK_SIZE
-        elif self.direction == (-1, 0):
-            x -= BLOCK_SIZE
-        elif self.direction == (0, 1):
-            y += BLOCK_SIZE
-        elif self.direction == (0, -1):
-            y -= BLOCK_SIZE
+        # گذاشتن Object
+        if drap >= 1:
 
-        return x, y
+            new_obj = obj(
+                world_x,
+                world_y,
+                w,
+                h,
+                name=item.name,
+                offset_x=base_x,
+                offset_y=base_y
+            )
+
+            if new_obj.create():
+
+                self.invertory.slots[key] = (
+                    item,
+                    count - 1,
+                    active
+                )
+
+        # برداشتن Object
+        elif drap <= -1:
+            result = obj.remove(
+                world_x,
+                world_y,
+                w,
+                h,
+                name=item.name,
+                offset_x=base_x,
+                offset_y=base_y)
+
+            if result[0]:
+                a = False
+                i = Item.getitem_status(name=result[1])
+                if slot[0] == i:
+                    a = True
+
+                self.invertory.add(i, 1 ,a)
+
+        
+
+    
 
     def getStatus(self, bManager):
         blocks = {}
@@ -176,7 +214,8 @@ class NPC:
             "health": self.health,
             "hungry": self.hungry,
             "x": self.world_x,
-            "y": self.world_y
+            "y": self.world_y,
+            "cameradir": self.camdir_angle
         }
 
     @classmethod

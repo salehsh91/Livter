@@ -1,5 +1,3 @@
-import math
-
-while True:
-    result = math.degrees(math.atan2(int(input("x: ")),-int(input("y: "))))
-    print(result)
+x = 15
+BLOCK_SIZE = 6
+print((x-x%BLOCK_SIZE)/BLOCK_SIZE)

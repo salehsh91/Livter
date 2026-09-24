@@ -5,20 +5,21 @@ class Invertory:
 
         self.slots = {}
 
-    def add(self, item, add=1):
+    def add(self, item, add=1, active=False):
         if add <= 0:
             return
+        
 
         # اگر آیتم از قبل وجود دارد، تعدادش را زیاد کن
         for key, itemy in self.slots.items():
             if itemy[0] == item:
-                self.slots[key] = (item, itemy[1] + add)
+                self.slots[key] = (item, itemy[1] + add,active)
                 return
 
         # پیدا کردن اولین slot خالی
         for id in range(1, self.slotnum + 1):
             if id not in self.slots:
-                self.slots[id] = (item, add)
+                self.slots[id] = (item, add, active)
                 return
 
         return "full"
@@ -41,7 +42,8 @@ class Invertory:
         else:
             self.slots[k] = (
                 item,
-                self.slots[k][1] - remove
+                self.slots[k][1] - remove,
+                self.slots[k][2]
             )
 
     def has(self, item, num=1):
@@ -53,4 +55,7 @@ class Invertory:
 
     def getinvertory(self):
         return self.slots
+
+
+    
 

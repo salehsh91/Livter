@@ -34,7 +34,10 @@ class Item:
 class Block:
     blocks = {}
 
-    def __init__(self, texture, type, name, damage=0, item=None):
+    def __init__(self, texture, type, name,size = (BLOCK_SIZE,BLOCK_SIZE), damage=0, item=None):
+        self.w = size[0]
+        self.h = size[1]
+
         self.texture = texture
         self.type = type
         self.name = name
@@ -63,31 +66,37 @@ water = Block(
     Texture.water,
     "water",
     "water",
+    (BLOCK_SIZE,BLOCK_SIZE),
     damage=0.5
+    
 )
 
 sand = Block(
     Texture.sand,
     "sand",
-    "sand"
+    "sand",
+    (BLOCK_SIZE,BLOCK_SIZE)
 )
 
 stone = Block(
     Texture.stone,
     "stone",
-    "stone"
+    "stone",
+    (BLOCK_SIZE,BLOCK_SIZE)
 )
 
 grass = Block(
     Texture.grass,
     "grass",
-    "grass"
+    "grass",
+    (BLOCK_SIZE,BLOCK_SIZE)
 )
 
 plank = Block(
     Texture.plank,
     "plank",
-    "plank"
+    "plank",
+    (BLOCK_SIZE,BLOCK_SIZE)
 )
 
 

@@ -13,6 +13,7 @@ BLOCK_SIZE = 32
 NPC_SPEED = 1
 CAMERA_SPEED = 1
 
+camdirline = 50
 
 FPS = 60
 

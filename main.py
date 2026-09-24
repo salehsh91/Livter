@@ -9,7 +9,8 @@ from hud import *
 
 
 running = True
-
+playerContoroler = Contoroler_JoyStick(screen,200,HEIGHT-200)
+playerContoroler = Contoroler_Key()
 seed = random.randint(0, 999999999)
 print("seed:", seed)
 
@@ -20,10 +21,10 @@ font = pyg.font.Font(None, 30)
 player = world.newPlayer(
     50,
     50,
-    WIDTH / 2,
-    HEIGHT / 2,
+    WIDTH / 2-50/2,
+    HEIGHT / 2-50/2,
     COLORS["RED"],
-    Contoroler_JoyStick(screen, 200, HEIGHT - 200)
+    playerContoroler
 )
 
 for _ in range( 100):

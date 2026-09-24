@@ -24,6 +24,7 @@ class World:
 
     def ev(self, ev):
         self.playerContoroler.update(ev)
+        self.HUD.update_event(ev)
 
     def update(self):
         self.blockManager.update_background_loading(self.display)
