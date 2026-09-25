@@ -53,44 +53,7 @@ class World:
         for key, npc in self.npcs.items():
             npc[0].update(self.blockManager)
 
-    def draw(self):
-        self.blockManager.drawBlocks(self.display)
-
-        bx, by = self.blockManager.bx, self.blockManager.by
-
-        drawables = []
-
-        for o in obj.getObjs().values():
-            drawables.append((
-                o.world_z,
-                o.world_y,
-                o,
-                "obj"
-            ))
-
-        for id, npc in self.npcs.items():
-            data = npc[0]
-
-            drawables.append((
-                data.world_z,
-                data.world_y,
-                data,
-                "npc"
-            ))
-
-        drawables.sort(
-            key=lambda d: (d[0], d[1])
-        )
-
-        for z, y, item, kind in drawables:
-            item.draw(
-                self.display,
-                bx,
-                by
-            )
-
-        self.HUD.draw()
-        self.playerContoroler.draw()
+    
 
     def newNPC(self, w, h, x, y, color, contoroler=None,HUD=None,inventory = Invertory(), player=False):
         if contoroler is None:
@@ -150,7 +113,7 @@ class World:
 
         for id, npc in self.npcs.items():
             data = npc[0]
-            drawables.append((0, data.world_y, data, "npc"))
+            drawables.append((data.world_z, data.world_y, data, "npc"))  # به‌جای 0
 
         drawables.sort(key=lambda d: (d[0], d[1]))
 

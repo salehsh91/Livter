@@ -1,10 +1,11 @@
 import pygame as pyg
+from conster import *
 import math
 
 
 class Contoroler_Key:
 
-    def __init__(self, up=pyg.K_w, down=pyg.K_s, left=pyg.K_a, right=pyg.K_d, drap=pyg.K_q, undrap=pyg.K_e,debug=pyg.K_BACKSPACE):
+    def __init__(self,display, up=pyg.K_w, down=pyg.K_s, left=pyg.K_a, right=pyg.K_d, drap=pyg.K_q, undrap=pyg.K_e,debug=pyg.K_BACKSPACE):
         self.key_up = up
         self.key_down = down
         self.key_left = left
@@ -13,7 +14,17 @@ class Contoroler_Key:
         self.key_undrap = undrap
         self.key_debug = debug
 
+        self.display = display
+
         self.cameradir = 0
+
+        self.grond = False
+        self.grondRect = pyg.Rect(
+            WIDTH - 140,
+            10 +45 + 10,
+            130,
+            45
+            )
 
     def getAPI(self, keys):
         x = 0
@@ -46,12 +57,40 @@ class Contoroler_Key:
             "move": move,
             "cameradir": dir,
             "drap": drap,
-            "debug":debug
+            "debug":debug,
+            "Grond": self.grond
         }
     def update(self,ev):
-        pass
+        if ev.type == pyg.MOUSEBUTTONDOWN and ev.button == 1:
+        
+            if self.grondRect.collidepoint(ev.pos):
+                self.grond = not self.grond
+                return
     def draw(self):
-            pass
+        pyg.draw.rect(
+            self.display,
+            (70, 70, 70),
+            self.grondRect
+        )
+        font = pyg.font.Font(None, 25)
+        txt = "hand Grond"
+        if self.grond:
+            txt = "Auto Grond"
+        text = font.render(
+            txt,
+            True,
+            (255, 255, 255)
+        )
+
+        text_rect = text.get_rect(
+            center=self.grondRect.center
+        )
+
+        self.display.blit(
+            text,
+            text_rect
+        )
+    
 
 class Contoroler_JoyStick:
 

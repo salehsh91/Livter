@@ -85,6 +85,7 @@ class NPC:
                 break
 
     def getAPI(self, API):
+        self.Auto_Ground = API["Grond"]
         if API["move"]:
             rad = math.radians(API["dir"])
             dx = math.sin(rad)
@@ -153,7 +154,7 @@ class NPC:
                     self.last_dx = 0
                     self.last_dy = 0
             else:
-                self.world_z = 1
+                self.world_z = max(1,self.world_z-1)
 
         if now - self.last_drap_time >= self.drap_delay:
             self.last_drap_time = now
@@ -247,11 +248,14 @@ class NPC:
             result = obj.remove(
                 world_x,
                 world_y,
+                world_z,
                 w,
                 h,
                 name=item.name,
                 offset_x=base_x,
-                offset_y=base_y)
+                offset_y=base_y,
+                autogrand= self.Auto_Ground
+                )
 
             if result[0]:
                 a = False

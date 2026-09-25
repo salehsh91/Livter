@@ -43,30 +43,37 @@ class obj:
         return True
 
     @classmethod
-    def remove(cls,x,y,objwidth=BLOCK_SIZE,objheight=BLOCK_SIZE,name="plank",offset_x=0,offset_y=0):
+    def remove(cls, x, y, z, objwidth=BLOCK_SIZE, objheight=BLOCK_SIZE, name="plank", offset_x=0, offset_y=0, autogrand=False):
 
-        A_world_x = offset_x + ((x-offset_x)//BLOCK_SIZE)*BLOCK_SIZE
-        A_world_y = offset_y + ((y-offset_y)//BLOCK_SIZE)*BLOCK_SIZE
+        A_world_x = offset_x + ((x - offset_x) // BLOCK_SIZE) * BLOCK_SIZE
+        A_world_y = offset_y + ((y - offset_y) // BLOCK_SIZE) * BLOCK_SIZE
 
-        A_width = objwidth
-        A_height = objheight
+        if autogrand:
+            # پیدا کردن بالاترین بلاک (بیشترین world_z) در همین ستون x,y
+            target_id = None
+            target_z = None
 
-        A_base_x = offset_x
-        A_base_y = offset_y
+            for id_, o in cls.objs.items():
+                if o.world_x == A_world_x and o.world_y == A_world_y:
+                    if target_z is None or o.world_z > target_z:
+                        target_z = o.world_z
+                        target_id = id_
 
-        block = Block.getblock_status(name = name)
-        A_texture = block.texture
-        A_type = block.type
-        A_name = block.name
+            if target_id is None:
+                return (False, None)
 
-        for id, obj in cls.objs.items():
-            if A_world_x == obj.world_x and A_world_y == obj.world_y:
-                o = obj.name
-                del cls.objs[id]
-                return (True,o)
+            name_removed = cls.objs[target_id].name
+            del cls.objs[target_id]
+            return (True, name_removed)
 
-        
-        return (False,None)
+        # حالت عادی: حذف بلاک دقیقاً در z مشخص‌شده
+        for id_, o in cls.objs.items():
+            if A_world_x == o.world_x and A_world_y == o.world_y and o.world_z == z:
+                name_removed = o.name
+                del cls.objs[id_]
+                return (True, name_removed)
+
+        return (False, None)
 
     @classmethod
     def zblock(cls,x,y,playerz,playerl,offset_x,offset_y,autoGround):
@@ -103,41 +110,10 @@ class obj:
 
                 z += 1
 
-        return max(1, playerz - playerl)
+        return max(1, playerz - 1)
 
     
-    def draw(self, display, bx, by):
-        # Shadow on the ground
-        shadow_width = self.width
-        shadow_height = max(6, self.height // 4)
-
-        shadow = pyg.Surface(
-            (shadow_width, shadow_height),
-            pyg.SRCALPHA
-        )
-
-        pyg.draw.ellipse(
-            shadow,
-            (0, 0, 0, 80),
-            shadow.get_rect()
-        )
-
-        display.blit(
-            shadow,
-            (
-                self.world_x + bx,
-                self.world_y + by + self.height - shadow_height // 2
-            )
-        )
-
-        # Object
-        display.blit(
-            self.texture,
-            (
-                self.world_x + bx,
-                self.world_y + by
-            )
-        )
+    
 
     def draw(self, display, bx, by):
         # Shadow
