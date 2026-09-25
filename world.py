@@ -55,13 +55,40 @@ class World:
 
     def draw(self):
         self.blockManager.drawBlocks(self.display)
-        obj.drawObjects(
-            self.display,
-            self.blockManager.bx,
-            self.blockManager.by
+
+        bx, by = self.blockManager.bx, self.blockManager.by
+
+        drawables = []
+
+        for o in obj.getObjs().values():
+            drawables.append((
+                o.world_z,
+                o.world_y,
+                o,
+                "obj"
+            ))
+
+        for id, npc in self.npcs.items():
+            data = npc[0]
+
+            drawables.append((
+                data.world_z,
+                data.world_y,
+                data,
+                "npc"
+            ))
+
+        drawables.sort(
+            key=lambda d: (d[0], d[1])
         )
-        NPC.drawNPC()
-        
+
+        for z, y, item, kind in drawables:
+            item.draw(
+                self.display,
+                bx,
+                by
+            )
+
         self.HUD.draw()
         self.playerContoroler.draw()
 

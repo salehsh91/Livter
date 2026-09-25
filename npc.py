@@ -22,6 +22,8 @@ class NPC:
         self.realx = x
         self.realy = y
 
+        self.space = 1
+
         self.world = world
         self.health = 100
         self.hungry = 100
@@ -42,6 +44,9 @@ class NPC:
 
         self.rightHand = None
         self.Auto_Ground = True
+
+        self.bx = 0
+        self.by = 0
 
         self.last_drap_time = 0
         self.drap_delay = 500  # میلی‌ثانیه
@@ -67,6 +72,10 @@ class NPC:
             self.width,
             self.height
         )
+        
+        self.bx = bManager.bx
+        self.by = bManager.by
+
 
         for key, block_type in blocks.items():
             if block_type == "water":
@@ -78,18 +87,18 @@ class NPC:
     def getAPI(self, API):
         if API["move"]:
             rad = math.radians(API["dir"])
-
             dx = math.sin(rad)
             dy = -math.cos(rad)
-
             self.dir_angle = API["dir"]
-            
         else:
             dx = 0
             dy = 0
 
         x = dx * NPC_SPEED
         y = dy * NPC_SPEED
+
+        old_x = self.world_x
+        old_y = self.world_y
 
         self.world_x += x
         self.world_y += y
@@ -100,9 +109,61 @@ class NPC:
         self.camdir_angle = API["cameradir"]
         now = pyg.time.get_ticks()
 
+        if True:
+            base_x = self.world.base_x
+            base_y = self.world.base_y
+
+            npc_rect = pyg.Rect(
+                self.world_x + self.bx,
+                self.world_y + self.by,
+                self.width,
+                self.height
+            )
+
+            hit_object = False
+            highest_z = 1
+
+            for o in obj.getObj3x3x3(
+                self.world_x + self.width / 2,
+                self.world_y + self.height / 2,
+                self.world_z,
+                base_x,
+                base_y
+            ):
+                object_rect = pyg.Rect(
+                    o[0] + self.bx,
+                    o[1] + self.by,
+                    o[2] - o[0],
+                    o[3] - o[1]
+                )
+
+                if npc_rect.colliderect(object_rect):
+                    hit_object = True
+                    object_top = o[4] + o[5]
+
+                    if object_top > highest_z:
+                        highest_z = object_top
+
+            if hit_object:
+                if self.world_z + self.space >= highest_z:
+                    self.world_z = highest_z
+                else:
+                    self.world_x = old_x
+                    self.world_y = old_y
+                    self.last_dx = 0
+                    self.last_dy = 0
+            else:
+                self.world_z = 1
+
         if now - self.last_drap_time >= self.drap_delay:
             self.last_drap_time = now
             self.drap(API["drap"])
+
+            if API["debug"]:
+                print(self.world_z)
+
+
+
         
 
 
@@ -155,7 +216,9 @@ class NPC:
 
         world_x = end_x - self.world.bx
         world_y = end_y - self.world.by
-        world_z = obj.zblock(world_x,world_y,self.world_z,self.length,base_x,base_y,self.Auto_Ground)
+        z1 = obj.zblock(world_x,world_y,self.world_z,self.length,base_x,base_y,self.Auto_Ground)
+        world_z = z1
+        
 
         # گذاشتن Object
         if drap >= 1:
@@ -235,12 +298,20 @@ class NPC:
         }
 
     def draw(self, display, bx, by):
+        z_height = max(0, self.world_z - 1)
+
+        draw_y = (
+            self.world_y
+            + by
+            
+        )
+
         pyg.draw.rect(
             display,
             self.color,
             (
                 self.world_x + bx,
-                self.world_y + by,
+                draw_y,
                 self.width,
                 self.height
             )

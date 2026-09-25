@@ -27,22 +27,22 @@ player = world.newPlayer(
     playerContoroler
 )
 
-for _ in range( 100):
+# for _ in range( 100):
 
-    world.newNPC(
-        50,
-        50,
-        WIDTH / 2 + 200,
-        HEIGHT / 2,
-        COLORS["BLUE"],
-        Contoroler_Key(
-            pyg.K_i,
-            pyg.K_k,
-            pyg.K_j,
-            pyg.K_l,
-            pyg.K_u
-        )
-    )
+#     world.newNPC(
+#         50,
+#         50,
+#         WIDTH / 2 + 200,
+#         HEIGHT / 2,
+#         COLORS["BLUE"],
+#         Contoroler_Key(
+#             pyg.K_i,
+#             pyg.K_k,
+#             pyg.K_j,
+#             pyg.K_l,
+#             pyg.K_u
+#         )
+#     )
 
 world.getHUD(HUD(screen, player.getStatus(world.blockManager)))
 
@@ -67,17 +67,26 @@ while running:
 
     screen.fill((0, 0, 0))
 
-    world.draw()
+    if Render:
+        world.draw()
 
-    fps_text = font.render(
-        str(int(clock.get_fps())),
-        True,
-        (255, 255, 255)
-    )
+        fps_text = font.render(
+            str(int(clock.get_fps())),
+            True,
+            (0,0,0)
+        )
 
-    screen.blit(fps_text, (10, 10))
+        z_text = font.render(
+                    f"playerZ: {player.world_z}",
+                    True,
+                    (0,0,0)
+                )
 
-    pyg.display.update()
+        screen.blit(fps_text, (10, 10))
+        screen.blit(z_text, (60, 10))
+
+
+        pyg.display.update()
 
     clock.tick(60)
 

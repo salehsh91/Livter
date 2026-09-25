@@ -4,13 +4,14 @@ import math
 
 class Contoroler_Key:
 
-    def __init__(self, up=pyg.K_w, down=pyg.K_s, left=pyg.K_a, right=pyg.K_d, drap=pyg.K_q, undrap=pyg.K_e):
+    def __init__(self, up=pyg.K_w, down=pyg.K_s, left=pyg.K_a, right=pyg.K_d, drap=pyg.K_q, undrap=pyg.K_e,debug=pyg.K_BACKSPACE):
         self.key_up = up
         self.key_down = down
         self.key_left = left
         self.key_right = right
         self.key_drap = drap
         self.key_undrap = undrap
+        self.key_debug = debug
 
         self.cameradir = 0
 
@@ -18,6 +19,7 @@ class Contoroler_Key:
         x = 0
         y = 0
         drap = 0
+        debug = False
 
         if keys[self.key_up]:
             y -= 1
@@ -33,6 +35,9 @@ class Contoroler_Key:
         if keys[self.key_undrap]:
             drap = -1
 
+        if keys[self.key_debug]:
+            debug = True
+
         move = x != 0 or y != 0
         dir = math.degrees(math.atan2(x, -y)) if move else 0
 
@@ -40,7 +45,8 @@ class Contoroler_Key:
             "dir": dir,
             "move": move,
             "cameradir": dir,
-            "drap": drap
+            "drap": drap,
+            "debug":debug
         }
     def update(self,ev):
         pass
@@ -273,7 +279,8 @@ class Contoroler_JoyStick:
             "dir": self.dir,
             "move": move,
             "cameradir": self.cameradir,
-            "drap": self.drap_pressed
+            "drap": self.drap_pressed,
+            "debug": False
         }
 
 

@@ -30,7 +30,7 @@ class Texture:
     )
 
     stone = pyg.transform.scale(
-        load_texture("stone.png", (128, 128, 128)),
+        load_texture("stone2.png", (128, 128, 128)),
         (BLOCK_SIZE, BLOCK_SIZE)
     )
 
@@ -53,3 +53,7 @@ class Texture:
             load_texture("health.png", (244, 0, 0),True),
             (10,10)
         )
+    hungry = pyg.transform.scale(
+                load_texture("hungry.png", (255, 160, 22),True),
+                (10,10)
+            )

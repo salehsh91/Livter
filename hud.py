@@ -20,7 +20,7 @@ class HUD:
         self.linesizedir = camdirline
         self.objsize = 10
         self.Healthtexture = Texture.health
-        self.Hungertexture = Texture.health
+        self.Hungertexture = Texture.hungry
 
         self.inventory_button = pyg.Rect(
             WIDTH - 140,

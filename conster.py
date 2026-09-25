@@ -3,6 +3,8 @@ import pygame as pyg
 pyg.init()
 info = pyg.display.Info()
 
+Render = True
+
 WIDTH = info.current_w
 HEIGHT = info.current_h
 
