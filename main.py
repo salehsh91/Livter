@@ -10,7 +10,7 @@ from hud import *
 
 running = True
 playerContoroler = Contoroler_JoyStick(screen,200,HEIGHT-200)
-playerContoroler = Contoroler_Key(screen)
+# playerContoroler = Contoroler_Key(screen)
 seed = random.randint(0, 999999999)
 print("seed:", seed)
 

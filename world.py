@@ -113,12 +113,15 @@ class World:
 
         for id, npc in self.npcs.items():
             data = npc[0]
-            drawables.append((data.world_z, data.world_y, data, "npc"))  # به‌جای 0
+            drawables.append((data.world_z, data.world_y, data, "npc"))
 
         drawables.sort(key=lambda d: (d[0], d[1]))
 
         for z, y, item, kind in drawables:
-            item.draw(self.display, bx, by)
+            if kind == "obj":
+                item.draw(self.display, bx, by, self.player)
+            else:
+                item.draw(self.display, bx, by)
 
         self.HUD.draw()
         self.playerContoroler.draw()

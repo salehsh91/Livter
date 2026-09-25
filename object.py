@@ -25,6 +25,8 @@ class obj:
         self.type = block.type
         self.name = block.name
 
+
+        self.display_alpha = 255.0
         
 
         
@@ -243,3 +245,97 @@ class obj:
 
 
 
+    FADE_MARGIN = BLOCK_SIZE * 1.5      # هرچقدر بزرگ‌تر، محدوده‌ی تشخیص وسیع‌تر
+    FADE_SPEED = 0.09                 # هرچقدر کوچیک‌تر، محو شدن نرم‌تر (کندتر)
+    FADE_MIN_ALPHA = 150                # کمترین شفافیت (۰ تا ۲۵۵)
+
+    def draw(self, display, bx, by, player=None):
+        # ---------- محاسبه‌ی هدف شفافیت ----------
+        target_alpha = 255
+
+        if player is not None:
+            m = self.FADE_MARGIN
+
+            overlap_x = (
+                self.world_x - m < player.world_x + player.width
+                and self.world_x + self.width + m > player.world_x
+            )
+            overlap_y = (
+                self.world_y - m < player.world_y + player.height
+                and self.world_y + self.height + m > player.world_y
+            )
+
+            if overlap_x and overlap_y and self.world_z > player.world_z:
+                target_alpha = self.FADE_MIN_ALPHA
+
+        # ---------- نرم کردن انتقال (لرپ) ----------
+        self.display_alpha += (
+            (target_alpha - self.display_alpha) * self.FADE_SPEED
+        )
+
+        alpha = int(self.display_alpha)
+
+        # ---------- Shadow ----------
+        z_height = max(0, self.world_z - 1)
+
+        shadow_width = max(
+            4,
+            int(self.width * (1 - z_height * 0.08))
+        )
+
+        shadow_height = max(
+            3,
+            int(self.height * 0.25 * (1 - z_height * 0.05))
+        )
+
+        shadow_alpha = max(
+            25,
+            int(80 - z_height * 8)
+        )
+        shadow_alpha = int(shadow_alpha * (alpha / 255))
+
+        shadow = pyg.Surface(
+            (shadow_width, shadow_height),
+            pyg.SRCALPHA
+        )
+
+        pyg.draw.ellipse(
+            shadow,
+            (0, 0, 0, shadow_alpha),
+            shadow.get_rect()
+        )
+
+        shadow_x = (
+            self.world_x
+            + bx
+            + (self.width - shadow_width) / 2
+        )
+
+        shadow_y = (
+            self.world_y
+            + by
+            + self.height
+            - shadow_height / 2
+            + z_height * 4
+        )
+
+        display.blit(
+            shadow,
+            (shadow_x, shadow_y)
+        )
+
+        # ---------- Object ----------
+        draw_y = (
+            self.world_y
+            + by
+        )
+
+        self.texture.set_alpha(alpha)
+        display.blit(
+            self.texture,
+            (
+                self.world_x + bx,
+                draw_y
+            )
+        )
+        self.texture.set_alpha(255)
