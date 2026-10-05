@@ -85,7 +85,7 @@ class NPC:
                 break
 
     def getAPI(self, API):
-        self.Auto_Ground = API["Grond"]
+        self.Auto_Ground = API["Ground"]
         if API["move"]:
             rad = math.radians(API["dir"])
             dx = math.sin(rad)

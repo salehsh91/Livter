@@ -33,7 +33,7 @@ class World:
             data = npc[0]
             contoroler = npc[1]
 
-            api = contoroler.getAPI(pyg.key.get_pressed())
+            api = contoroler.getAPI()
             data.getAPI(api)
 
         if self.player:
