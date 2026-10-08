@@ -46,12 +46,13 @@ class Contoroler_Key:
             "hand Grond"
         )
 
-    def getAPI(self, keys):
+    def getAPI(self):
 
         x = 0
         y = 0
         drap = 0
         debug = False
+        keys = pyg.key.get_pressed()
 
         if keys[self.key_up]:
             y -= 1
@@ -95,20 +96,24 @@ class Contoroler_Key:
 
     def update(self, ev):
 
+        
+
         self.grondButton.update(ev)
 
-        self.grond = self.grondButton.is_pressed()
+        # self.grond = self.grondButton.is_pressed()
+        if (
+            ev.type == pyg.MOUSEBUTTONDOWN
+            and ev.button == 1
+        ):
 
-        # Ground should toggle, not stay pressed
-        if ev.type == pyg.MOUSEBUTTONDOWN:
-
-            if (
-                ev.button == 1
-                and self.grondButton.rect.collidepoint(ev.pos)
-            ):
+            if self.grondButton.rect.collidepoint(ev.pos):
 
                 self.grond = not self.grond
+
                 self.grondButton.pressed = False
+
+        
+
 
     def draw(self):
 
@@ -117,6 +122,7 @@ class Contoroler_Key:
             if self.grond
             else "hand Grond"
         )
+
 
         self.grondButton.draw()
 

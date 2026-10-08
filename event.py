@@ -3,6 +3,7 @@ import pygame as pyg
 def eventManager(ev,world):
     if ev.type == pyg.KEYDOWN:
         print(ev.key)
+        keys = pyg.key
         if ev.key == pyg.K_w:
             world.move(0,+5)
         elif ev.key == pyg.K_s:

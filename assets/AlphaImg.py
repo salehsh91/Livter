@@ -1,5 +1,5 @@
 from PIL import Image
-filename = "assets/hungrynoalfa.png"
+filename = "assets/leaves.png"
 img = Image.open(filename).convert("RGBA")
 
 pixels = img.load()

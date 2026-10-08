@@ -4,6 +4,7 @@ from conster import *
 from blockitem import *
 from object import obj
 from blockitem import Item
+from structures import *
 
 
 class NPC:
@@ -86,7 +87,7 @@ class NPC:
         self.by = bManager.by
 
         for key, block_type in blocks.items():
-            if block_type == "water":
+            if block_type == "water" and self.world_z <= 1:
                 self.health -= Block.getblock_status(
                     type=block_type
                 ).damage
@@ -170,7 +171,7 @@ class NPC:
             self.drap(API["drap"])
 
             if API["debug"]:
-                print(self.world_z)
+                Structers.Tree(self.world,self.world_x,self.world_y)
 
     def drap(self, drap):
         if self.invertory is None or drap == 0:

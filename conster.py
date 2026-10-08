@@ -8,10 +8,19 @@ Render = True
 WIDTH = info.current_w
 HEIGHT = info.current_h
 
+
+def size(num ,type = "x"):
+    if type == "x":
+        max = WIDTH
+    else:
+        max = HEIGHT
+
+    return int(max * (num/100))
+
 W_WORLD = 100
 H_WORLD = 100
 
-BLOCK_SIZE = 32
+BLOCK_SIZE = size(2.5,"x")
 NPC_SPEED = 1
 CAMERA_SPEED = 1
 

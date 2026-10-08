@@ -247,7 +247,7 @@ class obj:
 
     FADE_MARGIN = BLOCK_SIZE * 1.5      # هرچقدر بزرگ‌تر، محدوده‌ی تشخیص وسیع‌تر
     FADE_SPEED = 0.09                 # هرچقدر کوچیک‌تر، محو شدن نرم‌تر (کندتر)
-    FADE_MIN_ALPHA = 150                # کمترین شفافیت (۰ تا ۲۵۵)
+    FADE_MIN_ALPHA = 100                # کمترین شفافیت (۰ تا ۲۵۵)
 
     def draw(self, display, bx, by, player=None):
         # ---------- محاسبه‌ی هدف شفافیت ----------

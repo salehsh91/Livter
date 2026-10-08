@@ -57,3 +57,13 @@ class Texture:
                 load_texture("hungry.png", (255, 160, 22),True),
                 (10,10)
             )
+
+    oak = pyg.transform.scale(
+            load_texture("oak.png", (244, 164, 96)),
+            (BLOCK_SIZE, BLOCK_SIZE)
+        )
+
+    leaves = pyg.transform.scale(
+            load_texture("leaves.png", (0, 255, 0),True),
+            (BLOCK_SIZE, BLOCK_SIZE)
+        )

@@ -99,6 +99,19 @@ plank = Block(
     (BLOCK_SIZE,BLOCK_SIZE)
 )
 
+oak = Block(
+    Texture.oak,
+    "oak",
+    "oak",
+    (BLOCK_SIZE,BLOCK_SIZE)
+)
+
+leaves = Block(
+    Texture.leaves,
+    "leaves",
+    "leaves",
+    (BLOCK_SIZE,BLOCK_SIZE)
+)
 
 Item(
     Texture.water,
@@ -136,9 +149,25 @@ Item(
     block=plank
 )
 
+Item(
+    Texture.oak,
+    "oak",
+    "oak",
+    block=oak
+)
+
+Item(
+    Texture.leaves,
+    "leaves",
+    "leaves",
+    block=leaves
+)
 
 water.item = Item.getitem_status(name="water")
 sand.item = Item.getitem_status(name="sand")
 stone.item = Item.getitem_status(name="stone")
 grass.item = Item.getitem_status(name="grass")
 plank.item = Item.getitem_status(name="plank")
+oak.item = Item.getitem_status(name="oak")
+leaves.item = Item.getitem_status(name="leaves")
+
