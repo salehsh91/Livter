@@ -1,10 +1,13 @@
 import pygame as pyg
+import random
 from conster import *
 from BlockManager import *
 from npc import *
 from contoroler import *
 from object import *
 from inventory import *
+from structures import Structers
+
 
 
 class World:
@@ -21,10 +24,30 @@ class World:
         self.npc_update_every = 15
 
         self.HUD = None
+        self.create()
 
     def ev(self, ev):
         self.playerContoroler.update(ev)
         self.HUD.update_event(ev)
+
+
+    def create(self):
+        
+        ts = []
+        num = random.randint(10,50)
+        for _ in range(num):
+            x = random.randint(0,W_WORLD)
+            y = random.randint(0,H_WORLD)
+            ts.append([x*BLOCK_SIZE,y*BLOCK_SIZE])
+            print([x,y])
+
+        for t in ts:
+            Structers.Tree(self.blockManager,t[0],t[1])
+
+
+
+
+
 
     def update(self):
         self.blockManager.update_background_loading(self.display)
@@ -152,7 +175,7 @@ class World:
         # Object ها
         # ==========================================
 
-        for o in obj.getObjs().values():
+        for o in obj.getObjs(self.blockManager,self.player).values():
             drawables.append(
                 (
                     o.world_z,

@@ -27,6 +27,8 @@ W_WORLD = 100
 H_WORLD = 100
 
 BLOCK_SIZE = size(2.5,"x")
+
+
 NPC_SPEED = 1
 CAMERA_SPEED = 1
 

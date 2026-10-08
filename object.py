@@ -237,8 +237,33 @@ class obj:
                 
 
     @classmethod
-    def getObjs(cls):
-        return cls.objs
+    def getObjs(cls,world,player):
+        objs = {}
+        wb = int(WIDTH//BLOCK_SIZE)+2
+        hb = int(HEIGHT//BLOCK_SIZE)+1
+        base_x = world.base_x
+        base_y = world.base_y
+
+        
+
+
+        
+        for ix in range(0,wb):
+            x = ix*BLOCK_SIZE+int(player.world_x-WIDTH/2)
+            x = base_x + ((x-base_x)//BLOCK_SIZE)*BLOCK_SIZE
+            for iy in range(0,hb):
+                y = iy*BLOCK_SIZE+int(player.world_y-HEIGHT/2)
+                
+                y = base_y + ((y-base_y)//BLOCK_SIZE)*BLOCK_SIZE
+                for z in range(25):
+                    o = cls.objs.get((x,y,z))
+                    
+                    if o is not None:
+                        id = len(objs)+1
+                        objs[id] = o
+        
+        return objs
+
 
 
 
