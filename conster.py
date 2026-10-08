@@ -8,6 +8,12 @@ Render = True
 WIDTH = info.current_w
 HEIGHT = info.current_h
 
+target = 720
+scale = min(1,target/min(info.current_w,info.current_h))
+
+WIDTH = int(info.current_w*scale)
+HEIGHT = int(info.current_h*scale)
+
 
 def size(num ,type = "x"):
     if type == "x":
