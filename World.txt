@@ -219,5 +219,3 @@ class World:
         self.HUD.draw()
 
         self.playerContoroler.draw()
-
-        print(self.player.vision_range)
