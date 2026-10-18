@@ -1,32 +1,29 @@
-import pygame as pyg
+import ctypes
 
-pyg.init()
-info = pyg.display.Info()
+
 
 Render = True
 
-WIDTH = info.current_w
-HEIGHT = info.current_h
 
 target = 720
-scale = min(1,target/min(info.current_w,info.current_h))
 
-WIDTH = int(info.current_w*scale)
-HEIGHT = int(info.current_h*scale)
+WW = ctypes.c_int
+HW = ctypes.c_int
 
 
-def size(num ,type = "x"):
-    if type == "x":
-        max = WIDTH
-    else:
-        max = HEIGHT
+# def size(num ,type = "x"):
+#     if type == "x":
+#         max = WIDTH
+#     else:
+#         max = HEIGHT
 
-    return int(max * (num/100))
+#     return int(max * (num/100))
 
 W_WORLD = 100
 H_WORLD = 100
 
-BLOCK_SIZE = size(2.5,"x")
+# BLOCK_SIZE = size(2.5,"x")
+BLOCK_SIZE = 32
 
 
 NPC_SPEED = 1

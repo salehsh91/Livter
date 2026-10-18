@@ -1,4 +1,4 @@
-import pygame as pyg
+
 
 
 class Button:
@@ -115,7 +115,7 @@ class Button:
         self.text = text
 
 
-import pygame as pyg
+
 
 
 class CButton:

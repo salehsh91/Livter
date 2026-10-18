@@ -1,4 +1,4 @@
-import pygame as pyg
+
 
 def eventManager(ev,world):
     if ev.type == pyg.KEYDOWN:

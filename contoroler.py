@@ -1,5 +1,5 @@
 
-import pygame as pyg
+
 from conster import *
 from Button import *
 import math
@@ -11,40 +11,40 @@ import math
 class Contoroler_Key:
 
     def __init__(
-        self,
-        display,
-        up=pyg.K_w,
-        down=pyg.K_s,
-        left=pyg.K_a,
-        right=pyg.K_d,
-        drap=pyg.K_q,
-        undrap=pyg.K_e,
-        debug=pyg.K_BACKSPACE
+        # self,
+        # display,
+        # up=pyg.K_w,
+        # down=pyg.K_s,
+        # left=pyg.K_a,
+        # right=pyg.K_d,
+        # drap=pyg.K_q,
+        # undrap=pyg.K_e,
+        # debug=pyg.K_BACKSPACE
     ):
+        pass
+        # self.key_up = up
+        # self.key_down = down
+        # self.key_left = left
+        # self.key_right = right
 
-        self.key_up = up
-        self.key_down = down
-        self.key_left = left
-        self.key_right = right
+        # self.key_drap = drap
+        # self.key_undrap = undrap
+        # self.key_debug = debug
 
-        self.key_drap = drap
-        self.key_undrap = undrap
-        self.key_debug = debug
+        # self.display = display
 
-        self.display = display
+        # self.cameradir = 0
 
-        self.cameradir = 0
+        # self.grond = False
 
-        self.grond = False
-
-        self.grondButton = Button(
-            display,
-            WIDTH - 140,
-            10 + 45 + 10,
-            130,
-            45,
-            "hand Grond"
-        )
+        # self.grondButton = Button(
+        #     display,
+        #     WIDTH - 140,
+        #     10 + 45 + 10,
+        #     130,
+        #     45,
+        #     "hand Grond"
+        # )
 
     def getAPI(self):
 
@@ -52,28 +52,28 @@ class Contoroler_Key:
         y = 0
         drap = 0
         debug = False
-        keys = pyg.key.get_pressed()
+        # keys = pyg.key.get_pressed()
 
-        if keys[self.key_up]:
-            y -= 1
+        # if keys[self.key_up]:
+        #     y -= 1
 
-        if keys[self.key_down]:
-            y += 1
+        # if keys[self.key_down]:
+        #     y += 1
 
-        if keys[self.key_left]:
-            x -= 1
+        # if keys[self.key_left]:
+        #     x -= 1
 
-        if keys[self.key_right]:
-            x += 1
+        # if keys[self.key_right]:
+        #     x += 1
 
-        if keys[self.key_drap]:
-            drap = 1
+        # if keys[self.key_drap]:
+        #     drap = 1
 
-        if keys[self.key_undrap]:
-            drap = -1
+        # if keys[self.key_undrap]:
+        #     drap = -1
 
-        if keys[self.key_debug]:
-            debug = True
+        # if keys[self.key_debug]:
+        #     debug = True
 
         move = x != 0 or y != 0
 
@@ -190,7 +190,7 @@ class Contoroler_JoyStick:
         # =================================================
 
         self.cameracenterx = (
-            display.get_width() - x
+            # display.get_width() - x
         )
 
         self.cameracentery = y

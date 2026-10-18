@@ -1,4 +1,4 @@
-import pygame as pyg
+
 import random
 from conster import *
 from BlockManager import *
@@ -6,25 +6,27 @@ from npc import *
 from contoroler import *
 from object import *
 from inventory import *
+from cppfuncs import *
 from structures import Structers
 
 
 
 class World:
-    def __init__(self, seed, display):
+    def __init__(self, seed ,display = None):
         self.npcs = {}
         self.player = None
         self.seed = seed
         self.display = display
+        
         self.playerContoroler = None
         self.blockManager = BlocksWorld(seed)
-        self.blockManager.create(self.display)
+        self.blockManager.create()
 
         self.npc_update_counter = 0
         self.npc_update_every = 15
 
         self.HUD = None
-        self.create()
+        # self.create()
 
     def ev(self, ev):
         self.playerContoroler.update(ev)
@@ -162,83 +164,95 @@ class World:
         # رندر بلوک‌ها
         # ==========================================
 
-        self.blockManager.drawBlocks(
-            self.display
-        )
+        # self.blockManager.drawBlocks(
+        #     self.display
+        # )
 
         bx = self.blockManager.bx
         by = self.blockManager.by
 
-        drawables = []
+        Ablocks = []
+
+        for kc, chunk in self.blockManager.Chunks.items():
+            for block_id in chunk.blocks:
+                Ablocks.append(block_id)
+
+
+        Arrtype = ctypes.c_int32 * len(Ablocks)
+        arr2 = Arrtype(*Ablocks) 
+
+        pr(arr2,len(Ablocks)) 
+            
+
 
         # ==========================================
         # Object ها
         # ==========================================
 
-        for o in obj.getObjs(self.blockManager,self.player).values():
-            drawables.append(
-                (
-                    o.world_z,
-                    o.world_y,
-                    o,
-                    "obj"
-                )
-            )
+        # for o in obj.getObjs(self.blockManager,self.player).values():
+        #     drawables.append(
+        #         (
+        #             o.world_z,
+        #             o.world_y,
+        #             o,
+        #             "obj"
+        #         )
+        #     )
 
-        # ==========================================
-        # NPC ها
-        # ==========================================
+        # # ==========================================
+        # # NPC ها
+        # # ==========================================
 
-        for id, npc in self.npcs.items():
-            data = npc[0]
+        # for id, npc in self.npcs.items():
+        #     data = npc[0]
 
-            drawables.append(
-                (
-                    data.world_z,
-                    data.world_y,
-                    data,
-                    "npc"
-                )
-            )
+        #     drawables.append(
+        #         (
+        #             data.world_z,
+        #             data.world_y,
+        #             data,
+        #             "npc"
+        #         )
+        #     )
 
-        # ==========================================
-        # مرتب‌سازی برای Z / Y
-        # ==========================================
+        # # ==========================================
+        # # مرتب‌سازی برای Z / Y
+        # # ==========================================
 
-        drawables.sort(
-            key=lambda d: (
-                d[0],
-                d[1]
-            )
-        )
+        # drawables.sort(
+        #     key=lambda d: (
+        #         d[0],
+        #         d[1]
+        #     )
+        # )
 
-        # ==========================================
-        # Draw
-        # ==========================================
+        # # ==========================================
+        # # Draw
+        # # ==========================================
 
-        for z, y, item, kind in drawables:
+        # for z, y, item, kind in drawables:
 
-            if kind == "obj":
+        #     if kind == "obj":
 
-                item.draw(
-                    self.display,
-                    bx,
-                    by,
-                    self.player
-                )
+        #         item.draw(
+        #             self.display,
+        #             bx,
+        #             by,
+        #             self.player
+        #         )
 
-            else:
+        #     else:
 
-                item.draw(
-                    self.display,
-                    bx,
-                    by
-                )
+        #         item.draw(
+        #             self.display,
+        #             bx,
+        #             by
+        #         )
 
-        # ==========================================
-        # HUD
-        # ==========================================
+        # # ==========================================
+        # # HUD
+        # # ==========================================
 
-        self.HUD.draw()
+        # self.HUD.draw()
 
-        self.playerContoroler.draw()
+        # self.playerContoroler.draw()

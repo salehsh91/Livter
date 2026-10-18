@@ -1,8 +1,8 @@
-import pygame as pyg
+
 import math
 
 from texture import Texture
-from conster import WIDTH, HEIGHT, camdirline
+# from conster import WIDTH, HEIGHT, camdirline
 
 
 class HUD:

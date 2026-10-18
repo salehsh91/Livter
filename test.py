@@ -1,3 +1,0 @@
-x = 15
-BLOCK_SIZE = 6
-print((x-x%BLOCK_SIZE)/BLOCK_SIZE)

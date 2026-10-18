@@ -1,6 +1,6 @@
-import pygame as pyg
+
 from conster import *
-from blockitem import Block
+# from blockitem import Block
 
 class obj:
     objs = {}

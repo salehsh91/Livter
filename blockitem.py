@@ -1,173 +1,173 @@
-import pygame as pyg
-from conster import *
-from texture import *
+
+# from conster import *
+# from texture import *
 
 
-class Item:
-    items = {}
+# class Item:
+#     items = {}
 
-    def __init__(self, texture, type, name, damage=0, block=None):
-        self.texture = texture
-        self.type = type
-        self.name = name
-        self.damage = damage
-        self.block = block
+#     def __init__(self, texture, type, name, damage=0, block=None):
+#         self.texture = texture
+#         self.type = type
+#         self.name = name
+#         self.damage = damage
+#         self.block = block
 
-        self.items[name] = self
+#         self.items[name] = self
 
-    @classmethod
-    def getitem_status(cls, texture=None, type=None, name=None):
-        for item in cls.items.values():
+#     @classmethod
+#     def getitem_status(cls, texture=None, type=None, name=None):
+#         for item in cls.items.values():
 
-            if texture is not None and item.texture == texture:
-                return item
+#             if texture is not None and item.texture == texture:
+#                 return item
 
-            if type is not None and item.type == type:
-                return item
+#             if type is not None and item.type == type:
+#                 return item
 
-            if name is not None and item.name == name:
-                return item
+#             if name is not None and item.name == name:
+#                 return item
 
-        return None
-
-
-class Block:
-    blocks = {}
-
-    def __init__(self, texture, type, name,size = (BLOCK_SIZE,BLOCK_SIZE), damage=0, item=None):
-        self.w = size[0]
-        self.h = size[1]
-
-        self.texture = texture
-        self.type = type
-        self.name = name
-        self.damage = damage
-        self.item = item
-
-        self.blocks[name] = self
-
-    @classmethod
-    def getblock_status(cls, texture=None, type=None, name=None):
-        for block in cls.blocks.values():
-
-            if texture is not None and block.texture == texture:
-                return block
-
-            if type is not None and block.type == type:
-                return block
-
-            if name is not None and block.name == name:
-                return block
-
-        return None
+#         return None
 
 
-water = Block(
-    Texture.water,
-    "water",
-    "water",
-    (BLOCK_SIZE,BLOCK_SIZE),
-    damage=0.5
+# class Block:
+#     blocks = {}
+
+#     def __init__(self, texture, type, name,size = (BLOCK_SIZE,BLOCK_SIZE), damage=0, item=None):
+#         self.w = size[0]
+#         self.h = size[1]
+
+#         self.texture = texture
+#         self.type = type
+#         self.name = name
+#         self.damage = damage
+#         self.item = item
+
+#         self.blocks[name] = self
+
+#     @classmethod
+#     def getblock_status(cls, texture=None, type=None, name=None):
+#         for block in cls.blocks.values():
+
+#             if texture is not None and block.texture == texture:
+#                 return block
+
+#             if type is not None and block.type == type:
+#                 return block
+
+#             if name is not None and block.name == name:
+#                 return block
+
+#         return None
+
+
+# water = Block(
+#     Texture.water,
+#     "water",
+#     "water",
+#     (BLOCK_SIZE,BLOCK_SIZE),
+#     damage=0.5
     
-)
+# )
 
-sand = Block(
-    Texture.sand,
-    "sand",
-    "sand",
-    (BLOCK_SIZE,BLOCK_SIZE)
-)
+# sand = Block(
+#     Texture.sand,
+#     "sand",
+#     "sand",
+#     (BLOCK_SIZE,BLOCK_SIZE)
+# )
 
-stone = Block(
-    Texture.stone,
-    "stone",
-    "stone",
-    (BLOCK_SIZE,BLOCK_SIZE)
-)
+# stone = Block(
+#     Texture.stone,
+#     "stone",
+#     "stone",
+#     (BLOCK_SIZE,BLOCK_SIZE)
+# )
 
-grass = Block(
-    Texture.grass,
-    "grass",
-    "grass",
-    (BLOCK_SIZE,BLOCK_SIZE)
-)
+# grass = Block(
+#     Texture.grass,
+#     "grass",
+#     "grass",
+#     (BLOCK_SIZE,BLOCK_SIZE)
+# )
 
-plank = Block(
-    Texture.plank,
-    "plank",
-    "plank",
-    (BLOCK_SIZE,BLOCK_SIZE)
-)
+# plank = Block(
+#     Texture.plank,
+#     "plank",
+#     "plank",
+#     (BLOCK_SIZE,BLOCK_SIZE)
+# )
 
-oak = Block(
-    Texture.oak,
-    "oak",
-    "oak",
-    (BLOCK_SIZE,BLOCK_SIZE)
-)
+# oak = Block(
+#     Texture.oak,
+#     "oak",
+#     "oak",
+#     (BLOCK_SIZE,BLOCK_SIZE)
+# )
 
-leaves = Block(
-    Texture.leaves,
-    "leaves",
-    "leaves",
-    (BLOCK_SIZE,BLOCK_SIZE)
-)
+# leaves = Block(
+#     Texture.leaves,
+#     "leaves",
+#     "leaves",
+#     (BLOCK_SIZE,BLOCK_SIZE)
+# )
 
-Item(
-    Texture.water,
-    "water",
-    "water",
-    damage=0.5,
-    block=water
-)
+# Item(
+#     Texture.water,
+#     "water",
+#     "water",
+#     damage=0.5,
+#     block=water
+# )
 
-Item(
-    Texture.sand,
-    "sand",
-    "sand",
-    block=sand
-)
+# Item(
+#     Texture.sand,
+#     "sand",
+#     "sand",
+#     block=sand
+# )
 
-Item(
-    Texture.stone,
-    "stone",
-    "stone",
-    block=stone
-)
+# Item(
+#     Texture.stone,
+#     "stone",
+#     "stone",
+#     block=stone
+# )
 
-Item(
-    Texture.grass,
-    "grass",
-    "grass",
-    block=grass
-)
+# Item(
+#     Texture.grass,
+#     "grass",
+#     "grass",
+#     block=grass
+# )
 
-Item(
-    Texture.plank,
-    "plank",
-    "plank",
-    block=plank
-)
+# Item(
+#     Texture.plank,
+#     "plank",
+#     "plank",
+#     block=plank
+# )
 
-Item(
-    Texture.oak,
-    "oak",
-    "oak",
-    block=oak
-)
+# Item(
+#     Texture.oak,
+#     "oak",
+#     "oak",
+#     block=oak
+# )
 
-Item(
-    Texture.leaves,
-    "leaves",
-    "leaves",
-    block=leaves
-)
+# Item(
+#     Texture.leaves,
+#     "leaves",
+#     "leaves",
+#     block=leaves
+# )
 
-water.item = Item.getitem_status(name="water")
-sand.item = Item.getitem_status(name="sand")
-stone.item = Item.getitem_status(name="stone")
-grass.item = Item.getitem_status(name="grass")
-plank.item = Item.getitem_status(name="plank")
-oak.item = Item.getitem_status(name="oak")
-leaves.item = Item.getitem_status(name="leaves")
+# water.item = Item.getitem_status(name="water")
+# sand.item = Item.getitem_status(name="sand")
+# stone.item = Item.getitem_status(name="stone")
+# grass.item = Item.getitem_status(name="grass")
+# plank.item = Item.getitem_status(name="plank")
+# oak.item = Item.getitem_status(name="oak")
+# leaves.item = Item.getitem_status(name="leaves")
 

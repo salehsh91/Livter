@@ -1,8 +1,9 @@
-import pygame as pyg
+
 from mynoise import OpenSimplex
 from worldchunk import Chunk
 from conster import *
 from texture import *
+from cppfuncs import *
 
 
 class BlocksWorld:
@@ -63,15 +64,15 @@ class BlocksWorld:
         # Center Real World
         # =====================================
 
-        self.base_x = (
-            WIDTH / 2
-            - self.real_world_width / 2
-        )
+        # self.base_x = (
+        #     WIDTH / 2
+        #     - self.real_world_width / 2
+        # )
 
-        self.base_y = (
-            HEIGHT / 2
-            - self.real_world_height / 2
-        )
+        # self.base_y = (
+        #     HEIGHT / 2
+        #     - self.real_world_height / 2
+        # )
 
         # =====================================
         # Chunk Loading
@@ -169,7 +170,7 @@ class BlocksWorld:
     # Create
     # ==================================================
 
-    def create(self, display):
+    def create(self):
 
         print("Loading initial chunks...")
 
@@ -221,60 +222,61 @@ class BlocksWorld:
     # ==================================================
 
     def get_real_visible_chunks(self):
+        return self.Chunks
 
-        chunk_w = (
-            self.CHUNK_SIZE
-            * self.bw
-        )
+        # chunk_w = (
+        #     self.CHUNK_SIZE
+        #     * self.bw
+        # )
 
-        chunk_h = (
-            self.CHUNK_SIZE
-            * self.bh
-        )
+        # chunk_h = (
+        #     self.CHUNK_SIZE
+        #     * self.bh
+        # )
 
-        start_cx = int(
-            (-self.base_x - self.bx)
-            // chunk_w
-        ) - self.margin_chunks
+        # start_cx = int(
+        #     (-self.base_x - self.bx)
+        #     // chunk_w
+        # ) - self.margin_chunks
 
-        end_cx = int(
-            (WIDTH - self.base_x - self.bx)
-            // chunk_w
-        ) + self.margin_chunks + 1
+        # end_cx = int(
+        #     (WIDTH - self.base_x - self.bx)
+        #     // chunk_w
+        # ) + self.margin_chunks + 1
 
-        start_cy = int(
-            (-self.base_y - self.by)
-            // chunk_h
-        ) - self.margin_chunks
+        # start_cy = int(
+        #     (-self.base_y - self.by)
+        #     // chunk_h
+        # ) - self.margin_chunks
 
-        end_cy = int(
-            (HEIGHT - self.base_y - self.by)
-            // chunk_h
-        ) + self.margin_chunks + 1
+        # end_cy = int(
+        #     (HEIGHT - self.base_y - self.by)
+        #     // chunk_h
+        # ) + self.margin_chunks + 1
 
-        visible = []
+        # visible = []
 
-        for cx in range(
-            start_cx,
-            end_cx
-        ):
+        # for cx in range(
+        #     start_cx,
+        #     end_cx
+        # ):
 
-            for cy in range(
-                start_cy,
-                end_cy
-            ):
+        #     for cy in range(
+        #         start_cy,
+        #         end_cy
+        #     ):
 
-                if (
-                    0 <= cx < self.num_chunks_x
-                    and
-                    0 <= cy < self.num_chunks_y
-                ):
+        #         if (
+        #             0 <= cx < self.num_chunks_x
+        #             and
+        #             0 <= cy < self.num_chunks_y
+        #         ):
 
-                    visible.append(
-                        (cx, cy)
-                    )
+        #             visible.append(
+        #                 (cx, cy)
+        #             )
 
-        return visible
+        # return visible
 
     # ==================================================
     # All Visible Chunks
@@ -632,27 +634,28 @@ class BlocksWorld:
             # Mirror All Z Layers
             # ==========================================
 
-            new_layers = {}
+            
 
-            for z, layer in chunk.blocks.items():
+            new_blocks = {}
 
-                new_blocks = {}
+            # --------------------------------------
+            # Mirror Blocks
+            # --------------------------------------
+            for keyc, chunk in self.Chunks.items():
+                
+                # for i, block in enumerate(chunk.blocks):
+                    
+                #     pass
 
-                # --------------------------------------
-                # Mirror Blocks
-                # --------------------------------------
+                    # bx, by = keyb
 
-                for keyb, block in layer["blocks"].items():
+                    # new_keyb = self.getAlgoritm(
+                    #     type,
+                    #     bx,
+                    #     by
+                    # )
 
-                    bx, by = keyb
-
-                    new_keyb = self.getAlgoritm(
-                        type,
-                        bx,
-                        by
-                    )
-
-                    new_blocks[new_keyb] = block
+                    # new_blocks[new_keyb] = block
 
                 # --------------------------------------
                 # Create Surface
@@ -676,24 +679,20 @@ class BlocksWorld:
                         )
                     )
 
-                # --------------------------------------
-                # Save Layer
-                # --------------------------------------
+            # --------------------------------------
+            # Save Layer
+            # --------------------------------------
 
-                new_layers[z] = {
-                    "blocks": new_blocks,
-                    "surface": surface
-                }
+                
 
             # ==========================================
             # Create Fake Chunk
             # ==========================================
 
-            self.load_chunk(
-                new_keyc,
-                new_layers,
-                True
-            )
+            # self.load_chunk(
+            #     new_keyc,
+            #     True
+            # )
 
     # ==================================================
     # Block Mirror Algorithm
@@ -897,11 +896,11 @@ class BlocksWorld:
     # ==================================================
 
     def texture(self):
-
-        self.grass = Texture.grass
-        self.stone = Texture.stone
-        self.water = Texture.water
-        self.sand = Texture.sand
+        pass
+        # self.grass = Texture.grass
+        # self.stone = Texture.stone
+        # self.water = Texture.water
+        # self.sand = Texture.sand
 
     # ==================================================
     # Get Block
@@ -1019,9 +1018,9 @@ class BlocksWorld:
                 if 0 not in chunk.blocks:
                     continue
 
-                layer = chunk.blocks[0]
+                
 
-                layer_blocks = layer["blocks"]
+                layer_blocks = chunk.blocks[0]
 
                 for lx in range(
                     local_start_x,
@@ -1034,19 +1033,19 @@ class BlocksWorld:
                     ):
 
                         keyb = (
-                            lx,
-                            ly
+                            ly * self.CHUNK_SIZE +lx
                         )
 
-                        if keyb in layer_blocks:
+                        
 
-                            blocks[
-                                (cx, cy),
-                                keyb
-                            ] = (
-                                layer_blocks[
-                                    keyb
-                                ].type
-                            )
+                        blocks[
+                            (cx, cy),
+                            keyb
+                        ] = (
+                            # layer_blocks[
+                            #     keyb
+                            # ].type
+                            "plank"
+                        )
 
         return blocks

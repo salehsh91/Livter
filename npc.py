@@ -1,9 +1,9 @@
-import pygame as pyg
+
 import math
 from conster import *
 from blockitem import *
 from object import obj
-from blockitem import Item
+# from blockitem import Item
 from structures import *
 
 

@@ -1,5 +1,5 @@
-import pygame as pyg
 
+import ctypes
 from conster import *
 from blockitem import *
 
@@ -30,8 +30,11 @@ class Chunk:
             + chunk_y * chunk_size * block_size
         )
 
+        
+
         # Z → {"blocks": {}, "surface": Surface}
-        self.blocks = {}
+        self.blocksa = (ctypes.c_int32 * (chunk_size * chunk_size))
+        self.blocks = self.blocksa()
 
         self.is_loaded = False
 
@@ -39,21 +42,7 @@ class Chunk:
     # ساخت Surface یک لایه
     # ==========================================
 
-    def create_layer(self, z):
-        surface = pyg.Surface(
-            (
-                self.chunk_size * self.block_size,
-                self.chunk_size * self.block_size
-            ),
-            pyg.SRCALPHA
-        )
-
-        self.blocks[z] = {
-            "blocks": {},
-            "surface": surface
-        }
-
-        return self.blocks[z]
+    
 
     # ==========================================
     # Generate
@@ -64,7 +53,7 @@ class Chunk:
         if self.is_loaded:
             return
 
-        layer = self.create_layer(0)
+        
 
         for local_x in range(self.chunk_size):
 
@@ -89,17 +78,11 @@ class Chunk:
                     texture
                 )
 
-                layer["blocks"][
-                    (local_x, local_y)
-                ] = block
+                self.blocks[
+                    ( local_y*self.chunk_size+local_x)
+                ] = 0
 
-                layer["surface"].blit(
-                    block.texture,
-                    (
-                        local_x * self.block_size,
-                        local_y * self.block_size
-                    )
-                )
+                
 
         self.is_loaded = True
 

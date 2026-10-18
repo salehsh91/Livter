@@ -1,31 +1,34 @@
-import pygame as pyg
+# import threading
 import random
-
-from init import *
+import ctypes
+# from init import *
 from world import *
-from npc import *
-from contoroler import *
-from hud import *
+# from npc import *
+# from contoroler import *
+# from hud import *
+screen = None
+
+
 
 
 running = True
-playerContoroler = Contoroler_JoyStick(screen,200,HEIGHT-200)
+# playerContoroler = Contoroler_JoyStick(None,200,HEIGHT-200)
 # playerContoroler = Contoroler_Key(screen)
 seed = random.randint(0, 999999999)
 print("seed:", seed)
 
-world = World(seed, screen)
+world = World(seed)
 
-font = pyg.font.Font(None, 30)
+# font = pyg.font.Font(None, 30)
 
-player = world.newPlayer(
-    50,
-    50,
-    WIDTH / 2-50/2,
-    HEIGHT / 2-50/2,
-    COLORS["RED"],
-    playerContoroler
-)
+# player = world.newPlayer(
+#     50,
+#     50,
+#     WIDTH / 2-50/2,
+#     HEIGHT / 2-50/2,
+#     COLORS["RED"],
+#     playerContoroler
+# )
 
 # for _ in range( 100):
 
@@ -44,50 +47,61 @@ player = world.newPlayer(
 #         )
 #     )
 
-world.getHUD(HUD(screen, player.getStatus(world.blockManager)))
+# world.getHUD(HUD(screen, player.getStatus(world.blockManager)))
 
 print("game started")
 
-clock = pyg.time.Clock()
+# cpp_thread = threading.Thread(target=GameLoop(GetRenderer(),GetWindow()),
+#                               daemon=True)
 
-while running:
 
-    for ev in pyg.event.get():
+Init()
+LoadTexture(GetRenderer(),255,0,255,255,0)
 
-        if ev.type == pyg.QUIT:
-            running = False
 
-        if ev.type == pyg.KEYDOWN:
-            if ev.key == pyg.K_ESCAPE:
-                running = False
+running = 1
+while running == 1:
 
-        world.ev(ev)
+    
 
-    world.update()
+    # world.update()
 
-    screen.fill((0, 0, 0))
+    # screen.fill((0, 0, 0))
 
     if Render:
+        
+        print(getWinSize())
         world.draw()
+        running = Render(GetRenderer())
+        
 
-        fps_text = font.render(
-            str(int(clock.get_fps())),
-            True,
-            (0,0,0)
-        )
+Quit()
 
-        z_text = font.render(
-                    f"playerZ: {player.world_z}",
-                    True,
-                    (0,0,0)
-                )
+            # fps_text = font.render(
+            #     str(int(clock.get_fps())),
+            #     True,
+            #     (0,0,0)
+            # )
 
-        screen.blit(fps_text, (200, 10))
-        screen.blit(z_text, (60, 10))
+            # z_text = font.render(
+            #             f"playerZ: {player.world_z}",
+            #             True,
+            #             (0,0,0)
+            #         )
+
+            # screen.blit(fps_text, (200, 10))
+            # screen.blit(z_text, (60, 10))
 
 
-        pyg.display.update()
+            
 
-    clock.tick(60)
+        # clock.tick(60)
 
-pyg.quit()
+    # pyg.quit()
+
+# logic_thread = threading.Thread(target=run(),
+#                               daemon=True)
+# cpp_thread.start()
+# logic_thread.start()
+
+# cpp_thread.join()
