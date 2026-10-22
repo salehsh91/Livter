@@ -3,6 +3,7 @@ import random
 import ctypes
 # from init import *
 from world import *
+
 # from npc import *
 # from contoroler import *
 # from hud import *
@@ -56,7 +57,26 @@ print("game started")
 
 
 Init()
-LoadTexture(GetRenderer(),255,0,255,255,0)
+LoadTexture(GetRenderer(),255,0,255,255,1)
+renderer = GetRenderer()
+
+LoadImageTexture(
+    renderer,
+    b"assets/grass.png",
+    1
+)
+
+LoadImageTexture(
+    renderer,
+    b"assets/water.png",
+    2
+)
+
+LoadImageTexture(
+    renderer,
+    b"assets/stone.png",
+    3
+)
 
 
 running = 1
@@ -70,9 +90,9 @@ while running == 1:
 
     if Render:
         
-        print(getWinSize())
-        world.draw()
-        running = Render(GetRenderer())
+        WIDTH,HEIGHT = getWinSize()
+        
+        running = world.draw()
         
 
 Quit()

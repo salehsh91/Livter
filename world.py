@@ -74,6 +74,60 @@ class World:
             self.updateNPC()
             self.updateHUD()
 
+    def render_all_chunks(self, camera_x, camera_y):
+        chunks = [
+            chunk
+            for chunk in self.blockManager.Chunks.values()
+            if chunk.is_loaded
+        ]
+
+        if not chunks:
+            return
+
+        chunk_size = chunks[0].chunk_size
+        block_size = chunks[0].block_size
+        blocks_per_chunk = chunk_size * chunk_size
+        chunk_count = len(chunks)
+
+        # آرایهٔ پیوستهٔ شناسهٔ تمام بلوک‌ها
+        BlocksArray = ctypes.c_int32 * (
+            chunk_count * blocks_per_chunk
+        )
+        all_blocks = BlocksArray()
+
+        # مختصات هر چانک: x, y, x, y, ...
+        CoordsArray = ctypes.c_int32 * (chunk_count * 2)
+        all_coords = CoordsArray()
+
+        block_offset = 0
+
+        for i, chunk in enumerate(chunks):
+            ctypes.memmove(
+                ctypes.addressof(all_blocks)
+                + block_offset * ctypes.sizeof(ctypes.c_int32),
+                ctypes.addressof(chunk.blocks),
+                blocks_per_chunk * ctypes.sizeof(ctypes.c_int32)
+            )
+
+            all_coords[i * 2] = chunk.chunk_x
+            all_coords[i * 2 + 1] = chunk.chunk_y
+
+            block_offset += blocks_per_chunk
+
+        pr(
+            all_blocks,
+            all_coords,
+            chunk_count,
+            chunk_size,
+            block_size,
+            camera_x,
+            camera_y,
+            chunks[0].world_x
+            - chunks[0].chunk_x * chunk_size * block_size,
+            chunks[0].world_y
+            - chunks[0].chunk_y * chunk_size * block_size
+        )
+
     def updateNPC(self):
         for key, npc in self.npcs.items():
             npc[0].update(self.blockManager)
@@ -168,20 +222,12 @@ class World:
         #     self.display
         # )
 
-        bx = self.blockManager.bx
-        by = self.blockManager.by
+        if Render():
+            self.render_all_chunks(0, 0)
+            present()
+            return True
 
-        Ablocks = []
-
-        for kc, chunk in self.blockManager.Chunks.items():
-            for block_id in chunk.blocks:
-                Ablocks.append(block_id)
-
-
-        Arrtype = ctypes.c_int32 * len(Ablocks)
-        arr2 = Arrtype(*Ablocks) 
-
-        pr(arr2,len(Ablocks)) 
+        return False
             
 
 

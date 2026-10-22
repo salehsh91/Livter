@@ -1,0 +1,12 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+E:/Livter_Game/Game/sdl_img/SDL3_image-3.4.8/src/version.rc
+winresrc.h
+E:/Livter_Game/Game/sdl_img/SDL3_image-3.4.8/src/winresrc.h
+

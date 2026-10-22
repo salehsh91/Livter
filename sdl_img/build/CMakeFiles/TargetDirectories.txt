@@ -1,0 +1,14 @@
+E:/Livter_Game/Game/sdl_img/build/CMakeFiles/SDL3_image-shared.dir
+E:/Livter_Game/Game/sdl_img/build/CMakeFiles/uninstall.dir
+E:/Livter_Game/Game/sdl_img/build/CMakeFiles/showanim.dir
+E:/Livter_Game/Game/sdl_img/build/CMakeFiles/showimage.dir
+E:/Livter_Game/Game/sdl_img/build/CMakeFiles/showclipboard.dir
+E:/Livter_Game/Game/sdl_img/build/CMakeFiles/showgpuimage.dir
+E:/Livter_Game/Game/sdl_img/build/CMakeFiles/package.dir
+E:/Livter_Game/Game/sdl_img/build/CMakeFiles/package_source.dir
+E:/Livter_Game/Game/sdl_img/build/CMakeFiles/edit_cache.dir
+E:/Livter_Game/Game/sdl_img/build/CMakeFiles/rebuild_cache.dir
+E:/Livter_Game/Game/sdl_img/build/CMakeFiles/list_install_components.dir
+E:/Livter_Game/Game/sdl_img/build/CMakeFiles/install.dir
+E:/Livter_Game/Game/sdl_img/build/CMakeFiles/install/local.dir
+E:/Livter_Game/Game/sdl_img/build/CMakeFiles/install/strip.dir

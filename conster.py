@@ -7,8 +7,8 @@ Render = True
 
 target = 720
 
-WW = ctypes.c_int
-HW = ctypes.c_int
+WIDTH = 0
+HEIGHT = 0
 
 
 # def size(num ,type = "x"):

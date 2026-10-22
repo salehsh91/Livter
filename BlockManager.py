@@ -64,15 +64,15 @@ class BlocksWorld:
         # Center Real World
         # =====================================
 
-        # self.base_x = (
-        #     WIDTH / 2
-        #     - self.real_world_width / 2
-        # )
+        self.base_x = (
+            WIDTH / 2
+            - self.real_world_width / 2
+        )
 
-        # self.base_y = (
-        #     HEIGHT / 2
-        #     - self.real_world_height / 2
-        # )
+        self.base_y = (
+            HEIGHT / 2
+            - self.real_world_height / 2
+        )
 
         # =====================================
         # Chunk Loading
@@ -153,18 +153,18 @@ class BlocksWorld:
         )
 
         if river < 0.08:
-            return "water", self.water
+            return "water", 0
 
         if elev < 0.35:
-            return "water", self.water
+            return "water", 0
 
         if elev < 0.40:
-            return "sand", self.sand
+            return "sand", 0
 
         if elev > 0.65:
-            return "stone", self.stone
+            return "stone", 0
 
-        return "grass", self.grass
+        return "grass", 0
 
     # ==================================================
     # Create
@@ -222,61 +222,61 @@ class BlocksWorld:
     # ==================================================
 
     def get_real_visible_chunks(self):
-        return self.Chunks
+        
 
-        # chunk_w = (
-        #     self.CHUNK_SIZE
-        #     * self.bw
-        # )
+        chunk_w = (
+            self.CHUNK_SIZE
+            * self.bw
+        )
 
-        # chunk_h = (
-        #     self.CHUNK_SIZE
-        #     * self.bh
-        # )
+        chunk_h = (
+            self.CHUNK_SIZE
+            * self.bh
+        )
 
-        # start_cx = int(
-        #     (-self.base_x - self.bx)
-        #     // chunk_w
-        # ) - self.margin_chunks
+        start_cx = int(
+            (-self.base_x - self.bx)
+            // chunk_w
+        ) - self.margin_chunks
 
-        # end_cx = int(
-        #     (WIDTH - self.base_x - self.bx)
-        #     // chunk_w
-        # ) + self.margin_chunks + 1
+        end_cx = int(
+            (WIDTH - self.base_x - self.bx)
+            // chunk_w
+        ) + self.margin_chunks + 1
 
-        # start_cy = int(
-        #     (-self.base_y - self.by)
-        #     // chunk_h
-        # ) - self.margin_chunks
+        start_cy = int(
+            (-self.base_y - self.by)
+            // chunk_h
+        ) - self.margin_chunks
 
-        # end_cy = int(
-        #     (HEIGHT - self.base_y - self.by)
-        #     // chunk_h
-        # ) + self.margin_chunks + 1
+        end_cy = int(
+            (HEIGHT - self.base_y - self.by)
+            // chunk_h
+        ) + self.margin_chunks + 1
 
-        # visible = []
+        visible = []
 
-        # for cx in range(
-        #     start_cx,
-        #     end_cx
-        # ):
+        for cx in range(
+            start_cx,
+            end_cx
+        ):
 
-        #     for cy in range(
-        #         start_cy,
-        #         end_cy
-        #     ):
+            for cy in range(
+                start_cy,
+                end_cy
+            ):
 
-        #         if (
-        #             0 <= cx < self.num_chunks_x
-        #             and
-        #             0 <= cy < self.num_chunks_y
-        #         ):
+                if (
+                    0 <= cx < self.num_chunks_x
+                    and
+                    0 <= cy < self.num_chunks_y
+                ):
 
-        #             visible.append(
-        #                 (cx, cy)
-        #             )
+                    visible.append(
+                        (cx, cy)
+                    )
 
-        # return visible
+        return visible
 
     # ==================================================
     # All Visible Chunks
@@ -641,7 +641,7 @@ class BlocksWorld:
             # --------------------------------------
             # Mirror Blocks
             # --------------------------------------
-            for keyc, chunk in self.Chunks.items():
+            
                 
                 # for i, block in enumerate(chunk.blocks):
                     
@@ -661,23 +661,23 @@ class BlocksWorld:
                 # Create Surface
                 # --------------------------------------
 
-                surface = pyg.Surface(
-                    (
-                        self.CHUNK_SIZE * self.bw,
-                        self.CHUNK_SIZE * self.bh
-                    ),
-                    pyg.SRCALPHA
-                )
+                # surface = pyg.Surface(
+                #     (
+                #         self.CHUNK_SIZE * self.bw,
+                #         self.CHUNK_SIZE * self.bh
+                #     ),
+                #     pyg.SRCALPHA
+                # )
 
-                for (bx, by), block in new_blocks.items():
+                # for (bx, by), block in new_blocks.items():
 
-                    surface.blit(
-                        block.texture,
-                        (
-                            bx * self.bw,
-                            by * self.bh
-                        )
-                    )
+                #     surface.blit(
+                #         block.texture,
+                #         (
+                #             bx * self.bw,
+                #             by * self.bh
+                #         )
+                #     )
 
             # --------------------------------------
             # Save Layer

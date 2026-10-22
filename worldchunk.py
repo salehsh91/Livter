@@ -74,13 +74,14 @@ class Chunk:
                     global_y
                 )
 
-                block = Block.getblock_status(
-                    texture
-                )
+                block = 1
+                # Block.getblock_status(
+                #     texture
+                # )
 
                 self.blocks[
                     ( local_y*self.chunk_size+local_x)
-                ] = 0
+                ] = block
 
                 
 
